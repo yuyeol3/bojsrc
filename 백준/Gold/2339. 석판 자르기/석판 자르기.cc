@@ -76,8 +76,8 @@ long long calcProbability(int originalSz, Platelet plate, int prevCut=CutStat::I
     if (crystals.size() == 0)
         return 0;
 
-    // if (crystals.size() - impurities.size() != 1)
-    //     return 0;
+    if (crystals.size() - impurities.size() != 1)
+        return 0;
 
     long long probability = 0;
     for (pair<int, int> impurity : impurities) {
