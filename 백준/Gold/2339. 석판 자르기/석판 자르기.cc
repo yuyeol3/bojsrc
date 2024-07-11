@@ -25,33 +25,12 @@ struct Platelet {
         return (*plate)[st_row + idx].begin() + st_col;
     }
 
-    bool checkIndex(int r, int c)
-    {
-        return (
-            (st_row <= r && r < st_row + row_sz) &&
-            (st_col <= c && c < st_col + col_sz)
-        );
-    }
-
 };
-
-void PrintPlatelet(Platelet &plate) {
-    for (int i = 0; i < plate.row_sz; ++i) {
-        for (int j = 0; j < plate.col_sz; ++j) {
-            printf("%d ", plate[i][j]);
-        }
-        printf("\n");
-    }
-    printf("\n");
-}
 
 
 
 long long calcProbability(int originalSz, Platelet plate, int prevCut=CutStat::INITIAL)
 {
-    // printf("st_row:%d,st_col:%d,row_sz:%d,col_sz:%d\n",plate.st_row, plate.st_col, plate.row_sz, plate.col_sz);
-    // PrintPlatelet(plate);
-
     // 크기가 0이면 리턴()
     if (plate.col_sz == 0 || plate.row_sz == 0)
         return 1;
