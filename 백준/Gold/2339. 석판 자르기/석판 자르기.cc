@@ -5,11 +5,9 @@ using namespace std;
 namespace StoneStat {
     enum {BLANK,IMPURITY,CRYSTAL};
 }
-
 namespace CutStat {
     enum {INITIAL,VERTICAL,HORIZENTAL};
 }
-
 
 struct Platelet {
     vector<vector<int>> *plate;
@@ -27,11 +25,8 @@ struct Platelet {
 
 };
 
-
-
-long long calcProbability(int originalSz, Platelet plate, int prevCut=CutStat::INITIAL)
-{
-    // 크기가 0이면 리턴()
+long long calcProbability(int originalSz, Platelet plate, int prevCut=CutStat::INITIAL) {
+    // 크기가 0이면 리턴
     if (plate.col_sz == 0 || plate.row_sz == 0)
         return 1;
     
@@ -97,8 +92,7 @@ long long calcProbability(int originalSz, Platelet plate, int prevCut=CutStat::I
     return probability;
 }
 
-int main()
-{
+int main() {
     int n;
     scanf("%d", &n);
     vector<vector<int>> plate(n, vector<int>(n));
