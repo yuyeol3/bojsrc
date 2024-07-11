@@ -63,8 +63,8 @@ long long calcProbability(int originalSz, Platelet plate, int prevCut=CutStat::I
         bool cutByRow, cutByCol;
         cutByRow = cutByCol = true;
         for (pair<int, int> crystal : crystals) {
-            // if (!cutByRow && !cutByCol)
-            //     break;
+            if (!cutByRow && !cutByCol)
+                break;
 
             if (crystal.first == impurity.first)
                 cutByRow = false;
@@ -73,7 +73,6 @@ long long calcProbability(int originalSz, Platelet plate, int prevCut=CutStat::I
         }
 
         if (cutByRow && prevCut != CutStat::HORIZENTAL) {
-            // printf("spliting<horiz>(%d,%d):\n", impurity.first, impurity.second);
             long long a,b;
             a = calcProbability(originalSz,
             Platelet(plate.plate, plate.st_row, plate.st_col, abs(plate.st_row-impurity.first), plate.col_sz),
@@ -84,7 +83,6 @@ long long calcProbability(int originalSz, Platelet plate, int prevCut=CutStat::I
             probability += a*b;
         }
         if (cutByCol && prevCut != CutStat::VERTICAL) {
-            // printf("spliting<vert>(%d,%d):\n", impurity.first, impurity.second);
             long long a,b;
             a = calcProbability(originalSz,
             Platelet(plate.plate, plate.st_row, plate.st_col, plate.row_sz, abs(plate.st_col-impurity.second)),
