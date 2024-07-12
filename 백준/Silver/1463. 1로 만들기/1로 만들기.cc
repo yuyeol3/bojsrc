@@ -10,9 +10,9 @@ int getMinCalc(int n) {
     if (memo[n] != -1) return memo[n];
 
     int result = getMinCalc(n - 1) + 1;
-    if (n % 2 == 0)
+    if (!(n % 2))
         result = min(result, getMinCalc(n / 2) + 1);
-    if (n % 3 == 0)
+    if (!(n % 3))
         result = min(result, getMinCalc(n / 3) + 1);
     
     memo[n] = result;
