@@ -13,11 +13,8 @@ int main() {
     // dp로 풀기
     for (int i = 2; i <= N; ++i) {
         for (int j = 0; j <= 9; ++j) {
-            if (j == 0) {
-                dp[i][j] = dp[i-1][1] % DIV;
-            }
-            else if (j == 9) {
-                dp[i][j] = dp[i-1][8] % DIV;
+            if (j == 0 || j == 9) {
+                dp[i][j] = dp[i-1][!j ? 1 : 8] % DIV;
             }
             else {
                 dp[i][j] += dp[i-1][j-1] % DIV;
