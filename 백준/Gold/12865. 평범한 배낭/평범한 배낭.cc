@@ -16,8 +16,7 @@ int f(int wei, int idx) {
     if (idx < 0) return 0;
     if (dp[wei][idx] != -1) return dp[wei][idx];
 
-    int res = 0;                 
-    res = max(res, f(wei, idx-1));
+    int res = max(0, f(wei, idx-1));
     if (wei-prods[idx].weight >= 0)
         res = max(res, prods[idx].value + f(wei-prods[idx].weight, idx-1));
 
