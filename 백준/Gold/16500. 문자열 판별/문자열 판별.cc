@@ -4,7 +4,7 @@
 using namespace std;
 
 unordered_set<string> substrs;
-vector<int> dp;
+int dp[101];
 string targetStr;
 
 void preset() {
@@ -12,7 +12,17 @@ void preset() {
     cout.tie(NULL);
     cin.tie(NULL);
 }
-
+/**
+ * ### 시간복잡도
+ * - substr에서 가장 긴 문자열의 길이 L
+ * - substr의 개수 N
+ * - targetStr의 길이 M
+ * 
+ * check 함수에서 substrs 만큼 비교 => O(N)
+ * 각 substr 별로 to_check 문자열과 비교 => O(L)
+ * targetStr의 각 자리수별로 계산은 한 번만 일어남 = O(M)
+ * => `O(NL * M)`
+ */
 bool check(int st_idx) {
     if (st_idx >= targetStr.length())
         return true;
@@ -21,7 +31,6 @@ bool check(int st_idx) {
         return (bool) dp[st_idx];
 
     string to_check = targetStr.substr(st_idx, targetStr.length() - st_idx);
-
     for (string substr : substrs) {
         int strlen = substr.length();
         if (to_check.substr(0, strlen) == substr) {
@@ -49,8 +58,7 @@ int main() {
         cin >> temp;
         substrs.insert(temp);
     }
-    dp.resize(targetStr.length()+1, -1);
-
+    fill(dp, dp+101, -1);
     if (check(0)) {
         cout << 1 << '\n';
     } else {
