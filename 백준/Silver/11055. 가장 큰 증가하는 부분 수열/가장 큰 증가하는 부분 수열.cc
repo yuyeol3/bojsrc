@@ -16,11 +16,12 @@ int f(int idx, int prev) {
 
     int res = 0;
     res = max(res, f(idx+1, prev));
-    for (int i = idx; i < series.size(); ++i) {
-        if (series[i] > prev) {
-            res = max(res, prev + f(i+1, series[i]));
-        }
-    }
+    if (series[idx] > prev) res = max(res, prev + f(idx+1, series[idx]));
+    // for (int i = idx; i < series.size(); ++i) {
+    //     if (series[i] > prev) {
+    //         res = max(res, prev + f(i+1, series[i]));
+    //     }
+    // }
 
     dp[idx][prev] = res;
     return res;
