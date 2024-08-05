@@ -2,15 +2,12 @@
 #include <vector>
 using namespace std;
 
-bool check(vector<long long> &trees, long long sawHeight, long long M) {
-
+bool check(vector<int> &trees, long long sawHeight, long long M) {
     long long summation = 0;
-    for (long long tree : trees) {
+    for (int tree : trees) {
         if (tree > sawHeight)
-            summation += (tree - sawHeight);
+            summation += ((long long)tree - sawHeight);
     }
-
-
     return summation >= M;
 }
 
@@ -18,11 +15,11 @@ int main() {
     long long N;
     long long M;
     scanf("%lld %lld", &N, &M);
-    vector<long long> trees(N);
+    vector<int> trees(N);
 
-    long long maximum = 0;
+    int maximum = 0;
     for (int i = 0; i < N; ++i) {
-        scanf("%lld", &trees[i]);
+        scanf("%d", &trees[i]);
         maximum = max(maximum, trees[i]);
     }
     long long ub = maximum;
@@ -30,8 +27,8 @@ int main() {
     long long mid;
 
     // O(N * log (maximum))
-    while (ub > lb) {
-        mid = (ub + lb) / 2;
+    for (long long mid = (ub+lb)/2;
+         ub > lb; mid = (ub+lb)/2) {
         if (mid == lb) {
             printf("%lld\n", mid);
             break;
