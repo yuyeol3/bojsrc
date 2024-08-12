@@ -1,5 +1,4 @@
 #include <cstdio>
-#include <vector>
 using namespace std;
 
 int main() {
@@ -15,8 +14,7 @@ int main() {
     lb = 1;
 
     while (ub > lb) {
-        int mid = (ub+lb)/2;
-
+        unsigned int mid = (ub+lb)/2;
         if (lb == mid) {
             printf("%d\n", lb);
             break;
@@ -33,6 +31,5 @@ int main() {
             ub = mid;
         }
     }
-
     return 0;
 }
