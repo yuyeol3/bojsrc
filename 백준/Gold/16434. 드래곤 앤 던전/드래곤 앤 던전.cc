@@ -13,7 +13,7 @@ int main() {
         scanf("%d %d %d", &rooms[i][0], &rooms[i][1], &rooms[i][2]);
     }
 
-    long long ub = __LONG_LONG_MAX__;
+    long long ub = 123456000000000000;
     // long long ub = 50;
     long long lb = 0;
     // long long lb = 40;
