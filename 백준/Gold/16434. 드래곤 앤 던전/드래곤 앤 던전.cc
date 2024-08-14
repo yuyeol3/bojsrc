@@ -12,7 +12,7 @@ int main() {
         scanf("%d %d %d", &rooms[i][0], &rooms[i][1], &rooms[i][2]);
     }
 
-    long long ub = 123456000000000000;
+    long long ub = 123455876544000001;
     long long lb = 0;
 
     while (ub > lb) {
