@@ -23,7 +23,7 @@ int main() {
         scanf("%d %d %d",&rules[i].st, &rules[i].ed, &rules[i].step);
     }
     // sort(rules, rules+K, Cmp());
-    int ub = __INT_MAX__;
+    int ub = N*2;
     int lb = 0;
 
 
