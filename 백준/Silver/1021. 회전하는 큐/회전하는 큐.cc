@@ -1,20 +1,7 @@
 #include <iostream>
 #include <deque>
+#include <algorithm>
 using namespace std;
-
-int search(deque<int> &dq, int toSearch) {
-    for (int i = 0; i < dq.size(); ++i) {
-        if (dq[i] == toSearch)
-            return i;
-    }
-}
-
-void printDeque(deque<int> &dq) {
-    for (int i = 0; i < dq.size(); ++i) {
-        printf("%d ", dq[i]);
-    }
-    printf("\n");
-}
 
 int main() {
     deque<int> d;
@@ -31,9 +18,10 @@ int main() {
         d.push_back(i+1);
     }
 
+
     int count = 0;
     for (const int e : toPop) {
-        int s_idx = search(d, e);
+        int s_idx = (find(d.begin(), d.end(), e)) - d.begin();
         int ld, rd;
 
         ld = s_idx;
@@ -60,3 +48,4 @@ int main() {
     printf("%d\n", count);
     return 0;
 }
+
