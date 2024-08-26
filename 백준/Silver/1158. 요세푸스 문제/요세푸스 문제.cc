@@ -2,9 +2,8 @@
 #include <list>
 using namespace std;
 
-inline void iterIncrement(list<int> &p, list<int>::iterator &iter) 
-{
-    if (iter == p.end() || iter == --p.end())  iter = p.begin();
+inline void iterIncrement(list<int> &p, list<int>::iterator &iter) {
+    if (iter == --p.end())  iter = p.begin();
     else ++iter;
 }
 
@@ -31,11 +30,5 @@ int main() {
         p.erase(toDelete);
     }
 
-    // 남은 원소 출력
-    // iter = p.begin();
-    // for (int i = 0; i < K - 1; ++i) {
-    //     const char *format = (i == K - 2 ? "%d>\n" : "%d, ");
-    //     printf(format, *(iter++));
-    // }
     return 0;
 }
