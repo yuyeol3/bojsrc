@@ -50,15 +50,6 @@ public:
 
         line.erase(cursor--);
         index--;
-
-        // if (index == -1)
-        //     cursor = line.begin();
-        /*
-        012 2
-        01  1
-        0   0
-        /   -1
-        */
     }
 
     void AddLetter(char l) {
@@ -116,15 +107,10 @@ int main() {
                 editor.AddLetter(comm);
                 break;
         }
-
-        // for (char e : line) {
-        //     cout << e;
-        // }
-        // cout << '\n';
     }
 
-    for (list<char>::iterator iter = line.begin(); iter != line.end(); ++iter) {
-        cout << *iter;
+    for (char e : line) {
+        cout << e;
     }
     cout << '\n';
     return 0;
