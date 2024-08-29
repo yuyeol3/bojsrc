@@ -77,7 +77,7 @@ void preset() {
 
 
 int main() {
-    // preset();
+    preset();
     list<char> line;
     string buff;
     cin >> buff;
