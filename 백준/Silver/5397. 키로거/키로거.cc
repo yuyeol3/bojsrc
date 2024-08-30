@@ -8,15 +8,8 @@ void preset() {
     cin.tie(NULL);
 }
 
-/**
- * 1. index = -1
- * 2. 0 <= index < password.size() -1
- * 3. index = password.size() -1
- */
-
 int main() {
     preset();
-    // vector<char> input;
     string buff;
     int N;
 
@@ -24,20 +17,12 @@ int main() {
     
     for (int i = 0; i < N; ++i) {
         cin >> buff;
-        // for (char e : buff)
-        //     input.push_back(e);
         list<char> password;
         list<char>::iterator iter;
         int location = -1;
         for (char c : buff) {
             switch (c) {
                 case '<':
-                    // if (location != -1) {
-                    //     if ()
-
-                    //     location--;
-                    // }
-
                     if (location == -1)
                         break;
 
@@ -49,12 +34,6 @@ int main() {
                     iter--;
                     break;
                 case '>':
-                    // if (location != password.size() - 1) {
-                    //     if (location == -1) {
-                    //         iter = password.begin();
-                    //     }
-                    //     location++;
-                    // }
                     if (location == password.size() - 1)
                         break;
 
@@ -93,7 +72,6 @@ int main() {
         for (char c : password)
             cout << c;
         cout << '\n';
-        password.clear();
     }
 
     return 0;
