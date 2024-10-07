@@ -1,12 +1,11 @@
 import java.io.*;
-import java.util.Scanner;
 
 public class Main {
     public static char[][] arr;
     public static void main(String[] args) throws IOException{
-        Scanner scanner = new Scanner(System.in);
+        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        int N = scanner.nextInt();
+        int N = Integer.parseInt(bf.readLine());
         arr = new char[N][N];
         printStar(N, 0, 0);
 
@@ -16,7 +15,7 @@ public class Main {
             }
             bw.write("\n");
         }
-        scanner.close();
+        bf.close();
         bw.flush();
         bw.close();
     }
