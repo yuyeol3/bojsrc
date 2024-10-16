@@ -8,8 +8,7 @@ public:
     Stack(int max): top(-1) {
         arr = new int[max];
     }
-    
-    
+
     void Pop() {
         top--;
     }
@@ -46,8 +45,5 @@ vector<int> solution(vector<int> arr)
         st.Push(arr[i]);
     }
     
-    // [실행] 버튼을 누르면 출력 값을 볼 수 있습니다.
-    // cout << "Hello Cpp" << endl;
-
     return answer;
 }
