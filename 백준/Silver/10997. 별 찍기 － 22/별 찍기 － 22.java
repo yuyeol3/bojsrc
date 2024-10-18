@@ -1,256 +1,121 @@
-
 import java.util.*;
 
-// 1 -> 5 -> 9 -> 13...
 
-interface LineFactory {
-    int numOfLines();
-    int numOfCols();
-    Line create(int i);
+interface Pr10997 {
+    void solve(Board board);
 }
 
-interface Content {
-    void print();
-}
-
-
-class Characters implements Content{
-    private final char character;
-    private final int num;
-    public Characters(char c, int n) {
-        character = c;
-        num = n;
-    }
-
-    public void print() {
-        for (int i = 0; i < num; ++i) {
-            System.out.print(character);
-        }
-    }
-
-
-}
-
-class CharactersWithStars implements Content{
-    private final Content innerContent;
-    public CharactersWithStars(Content innerContent) {
-        this.innerContent = innerContent;
-    }
-
-    public void print() {
-        System.out.print("*");
-        innerContent.print();
-        System.out.print("*");
-    }
-
-}
-
-class EquallySpacedStars implements Content{
-    private final int totalWidth;
-//    private final int starNum;
-    public EquallySpacedStars(int totalWidth) {
-        this.totalWidth = totalWidth;
-//        this.starNum = (totalWidth / 2) + 1;
-    }
-    public void print() {
-        for (int i = 0; i < totalWidth; ++i) {
-            if (i % 2 == 0)
-                System.out.print('*');
-            else
-                System.out.print(' ');
-        }
-    }
-
-}
-
-class Line implements Content{
-    private final List<Content> contents;
-
-    public Line(List<Content> c) {
-        contents = c;
-    }
-
-
-    public void print() {
-        for (Content c : contents) {
-            c.print();
-        }
-    }
-
-}
-
-class Pattern {
-//    private final List<Line> lines;
-    private final LineFactory factory;
-    public Pattern(LineFactory factory) {
-        this.factory = factory;
-    }
-
-    public void print() {
-        for (int i = 0; i < factory.numOfLines(); ++i) {
-            factory.create(i).print();
-            System.out.println();
-//            System.out.println(' ');
-        }
-    }
-}
-
-
-/* Todo 
-* OneSizeFactory
-* TwoSizeFactory
-* 구현하기
-* */
-class OneSizeFactory implements LineFactory {
-    public OneSizeFactory() {
-
-    }
-
-    public int numOfLines() {
-        return 1;
-    }
-
-    public int numOfCols() {
-        return 1;
-    }
-
-    public Line create(int i) {
-        List<Content> contents = new ArrayList<>();
-        contents.add(new Characters('*', 1));
-        return new Line(contents);
-    }
-
-}
-
-class TwoSizeFactory implements LineFactory {
-//    private final LineFactory prevLineFactory;
-    private final int num;
-    public TwoSizeFactory() {
-        num = 2;
-    }
-
-    public int numOfLines() {
-        return num*4 - 1;
-    }
-
-    public int numOfCols() {
-        return (1 + 4 * (num-1));
-    }
-
-    public Line create(int i) {
-        List<Content> contents = new ArrayList<>();
-        if (i == 0 || i == numOfLines() - 1)
-        {
-            contents.add(new Characters('*', numOfCols()));
-        }
-        else if (i == 1) {
-            contents.add(new Characters('*', 1));
-//            contents.add(new Characters(' ', numOfCols()-1));
-        }
-        else if (i == 2) {
-            contents.add(new Characters('*', 1));
-            contents.add(new Characters(' ', 1));
-            contents.add(new Characters('*', 3));
-        }
-        else if (i == 3 || i == 4) {
-            contents.add(new EquallySpacedStars(numOfCols()));
-        }
-        else if (i == numOfLines() - 2) {
-            contents.add(new Characters('*', 1));
-            contents.add(new Characters(' ', numOfCols()-2));
-            contents.add(new Characters('*', 1));
-        }
-
-        return new Line(contents);
-    }
-
-}
-
-class NSizeFactory implements LineFactory {
-    private final int num;
-    private final LineFactory prevLineFactory;
-    public NSizeFactory(int n) {
-        num = n;
-        if (n > 3)
-            prevLineFactory = new NSizeFactory(n-1);
-        else if (n == 3)
-            prevLineFactory = new TwoSizeFactory();
+class MultiRectangle implements Pr10997 {
+    private final Pr10997 thisRectangle;
+    private final Pr10997 nextRectangle;
+    public MultiRectangle(int n, int row, int col) {
+        thisRectangle = new OpenRectangle(n, row, col);
+        if (n == 2)
+            nextRectangle = new ClosedRectangle(row+2, col+2);
         else
-            prevLineFactory = null;
+            nextRectangle = new MultiRectangle(n-1, row+2, col+2);
     }
 
-    public int numOfLines() {
-        return num*4 - 1;
+    public void solve(Board board) {
+        thisRectangle.solve(board);
+        nextRectangle.solve(board);
     }
 
 
-    public int numOfCols()
-    {
-        return (1 + 4 * (num - 1));
+}
+
+class OpenRectangle implements Pr10997{
+    private final int num, row, col;
+    public OpenRectangle(int n, int row, int col) {
+        this.num = n;
+        this.row = row;
+        this.col = col;
     }
 
-    public Line create(int i) {
+    public void solve(Board board) {
+        int rowNum = num * 4 - 1;
+        int colNum = (1 + 4 *(num -1));
 
-        List<Content> contents = new ArrayList<>();
-
-        if (i == 0 || i == numOfLines() - 1)
-        {
-            contents.add(new Characters('*', numOfCols()));
+        for (int i = 0 ; i < colNum; ++i) {
+            board.putStar(row, col+i);
+            board.putStar(row+rowNum-1, col+i);
         }
-        else if (i == 1) {
-            contents.add(new Characters('*', 1));
-//            contents.add(new Characters(' ', numOfCols()-1));
-        }
-        else if (i == numOfLines() - 2) {
-            contents.add(new Characters('*', 1));
-            contents.add(new Characters(' ', numOfCols()-2));
-            contents.add(new Characters('*', 1));
-        }
-        else {
-            contents.add(new Characters('*', 1));
-            contents.add(new Characters(' ', 1));
-
-            if (i < prevLineFactory.numOfLines() + 2)
-                contents.add(prevLineFactory.create(i - 2));
-
-            if (i == 2) {
-//                contents.add(new Characters(' ', this.numOfCols()-2));
-                contents.add(new Characters('*', 2));
-            }
-            else if (i == 3) {
-                contents.add(new Characters(' ', this.numOfCols()-4));
-                contents.add(new Characters('*', 1));
-            }
-            else {
-                contents.add(new Characters(' ', 1));
-                contents.add(new Characters('*', 1));
-            }
+        board.putStar(row+1, col);
+        board.putStar(row+2, col+colNum-2);
+        for (int i = 2; i < rowNum-1; ++i) {
+            board.putStar(row+i, col);
+            board.putStar(row+i, col+colNum-1);
         }
 
-        return new Line(contents);
     }
 }
 
+final class ClosedRectangle implements Pr10997{
+    private final int row, col;
+    public ClosedRectangle(int row, int col) {
+        this.row = row;
+        this.col = col;
+
+    }
+
+    public void solve(Board board) {
+        board.putStar(row, col);
+        board.putStar(row+1, col);
+        board.putStar(row+2, col);
+    }
+}
+class InputOne implements Pr10997 {
+    private final int row, col;
+    public InputOne(int row, int col) {
+        this.row = row;
+        this.col = col;
+    }
+
+    public void solve(Board board) {
+        board.putStar(row,col);
+    }
+}
+
+class Board {
+    private final char[][] board;
+    private final int rowNum, colNum;
+    public Board(int n) {
+        rowNum = n == 1 ? 1 : n * 4 - 1;
+        colNum = (1 + 4 *(n -1));
+        board = new char[rowNum][colNum];
+    }
+
+    public void putStar(int x, int y) {
+        board[x][y] = '*';
+    }
+
+    public void print() {
+        for (int i = 0; i < rowNum; ++i) {
+            for (int j = 0; j < colNum; ++j) {
+                if (board[i][colNum-1] == '*')
+                    System.out.print(board[i][j] == '*' ? '*' : ' ');
+                else if (board[i][j] == '*')
+                    System.out.print(board[i][j]);
+            }
+            System.out.println();
+        }
+    }
+}
 
 public class Main {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        int n = scanner.nextInt();
-        LineFactory factory;
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
 
-        switch (n) {
-            case 1:
-                factory = new OneSizeFactory();
-                break;
-            case 2:
-                factory = new TwoSizeFactory();
-                break;
-            default:
-                factory = new NSizeFactory(n);
-                break;
+        Pr10997 p;
+        if (n == 1) {
+            p = new InputOne(0, 0);
+        } else {
+            p = new MultiRectangle(n, 0, 0);
         }
-        
-        new Pattern(factory).print();
-        scanner.close();
+
+        Board board = new Board(n);
+        p.solve(board);
+        board.print();
     }
 }
