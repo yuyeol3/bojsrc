@@ -5,14 +5,6 @@ using namespace std;
 
 class Queue {
 public:
-    Queue(int max)
-    {
-        maxSize = max+1;
-        front = maxSize - 1;
-        rear = maxSize - 1;
-        info = new int[maxSize];
-    }
-    
     Queue(vector<int> &v) {
         maxSize = v.size() + 1;
         front = maxSize - 1;
@@ -74,6 +66,5 @@ vector<int> solution(vector<int> progresses, vector<int> speeds) {
     }
     
     answer.resize(location+1);
-    // answer.shrink_to_fit();
     return answer;
 }
