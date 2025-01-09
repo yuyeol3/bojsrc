@@ -1,117 +1,48 @@
-#include <iostream>
-#include <string>
-#include <list>
+#include <bits/stdc++.h>
 using namespace std;
 
-class Editor {
-    list<char> &line;
-    list<char>::iterator cursor;
-    int index;
-public:
-    Editor(list<char> &newLine)
-    : line(newLine)
-    {
-        index = line.size() -1;
-        cursor = --line.end();
-    }
-
-    void CursorToRight() {
-        // 이미 커서가 맨 마지막에 있음
-        if (index == line.size() - 1)
-            return;
-
-        else if (index == -1) {
-            index++;
-            cursor = line.begin();
-            return;
-        }
-
-        cursor++;
-        index++;
-    }
-
-    void CursorToLeft() {
-        // 이미 커서가 맨 앞에 있음
-        if (index == -1)
-            return;
-
-        if (index == 0) {
-            index--;
-            return;
-        }
-
-        index--;
-        cursor--;
-    }
-
-    void DeleteLetter() {
-        if (index == -1)
-            return;
-
-        line.erase(cursor--);
-        index--;
-    }
-
-    void AddLetter(char l) {
-        if (index == line.size() - 1) {
-            line.push_back(l);
-            cursor = --line.end();
-        }
-        else if (index == -1) {
-            line.push_front(l);
-            cursor = line.begin();
-        }
-        else {
-            cursor = line.insert(++cursor, l);
-        }
-        index++;
-    }
-};
-
-
-void preset() {
-    ios::sync_with_stdio(false);
-    cout.tie(NULL);
-    cin.tie(NULL);
-}
-
-
 int main() {
-    preset();
-    list<char> line;
-    string buff;
-    cin >> buff;
-    
-    for (char e : buff)
-        line.push_back(e);
+    ios::sync_with_stdio(0);
+    cin.tie(0); cout.tie(0);
 
-    Editor editor(line);
+    list<char> editor;
+    list<char>::iterator cursor;
 
-    int N;
-    char comm;
-    cin >> N;
-    for (int i = 0; i < N; ++i) {
-        cin >> comm;
-        switch (comm) {
+    string ln;
+    cin >> ln;
+    for (char c : ln) editor.push_front(c);
+
+    cursor = editor.begin();
+
+    int n;
+    cin >> n;
+
+    for (int i = 0; i < n; i++) 
+    {
+        char command;
+        cin >> command;
+
+        switch (command) {
             case 'L':
-                editor.CursorToLeft();
+                if (cursor != editor.end()) cursor++;
                 break;
             case 'D':
-                editor.CursorToRight();
+                if (cursor != editor.begin()) cursor--;
                 break;
             case 'B':
-                editor.DeleteLetter();
+                if (cursor != editor.end()) cursor = editor.erase(cursor);
                 break;
             case 'P':
-                cin >> comm;
-                editor.AddLetter(comm);
+                cin >> command;
+                cursor = editor.insert(cursor, command);
                 break;
         }
     }
 
-    for (char e : line) {
-        cout << e;
-    }
-    cout << '\n';
+    for (auto iter = editor.rbegin(); iter != editor.rend(); iter++)
+        cout << *iter;
+    // cout << editor.front();
+    cout <<'\n';
+
     return 0;
 }
