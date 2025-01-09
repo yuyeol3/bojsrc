@@ -16,16 +16,6 @@ void traverse() {
     cout << '\n';
 }
 
-void rtraverse() {
-    int cur = usable - 1;
-    while (cur != 0) {
-        cout << dat[cur];
-        cur = prv[cur];
-    }
-    cout << '\n';
-}
-
-
 void add(int addr, char data) {
     dat[usable] = data;
     prv[usable] = addr;
@@ -56,9 +46,6 @@ int main() {
     for (char c : ln) add(len, c);
 
     int cursor = len; // 제일 마지막 단어
-
-    // traverse();
-
     int n;
     cin >> n;
 
