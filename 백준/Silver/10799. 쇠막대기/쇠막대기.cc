@@ -1,4 +1,4 @@
-#include <bits/stdc++.h>
+#include <iostream>
 using namespace std;
 
 int main() {
@@ -7,20 +7,19 @@ int main() {
 
     string data;
     cin >> data;
-    stack<char> s;
-
+    int open = 0;
     int totPiece = 0;
     char prev = '\0';
     for (char c : data) {
         
         if (c == ')') {
-            s.pop();
+            open--;
             if (prev == '(')
-                totPiece += s.size();
+                totPiece += open;
             else
                 totPiece++;
         }
-        else s.push(c);
+        else open++;
         prev = c;
     }
 
