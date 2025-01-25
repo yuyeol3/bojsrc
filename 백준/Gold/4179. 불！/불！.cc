@@ -45,13 +45,6 @@ int main() {
         }
     }
 
-    // for (int i = 0; i < R; i++) {
-    //     for (int j = 0; j < C; j++) {
-    //         cout << maze[i][j] << ' ';
-    //     }
-    //     cout << '\n';
-    // }
-    // cout << '\n';
 
     // 불에 대한 bfs
     while (!fq.empty()) {
@@ -72,7 +65,11 @@ int main() {
         for (int dir = 0; dir < 4; dir++) {
             int nx = cur.X + dx[dir];
             int ny = cur.Y + dy[dir];
-            if (nx < 0 || nx >= R || ny < 0 || ny >= C) continue;
+            // 탈출 성공
+            if (nx < 0 || nx >= R || ny < 0 || ny >= C) {
+                cout << jMove[cur.X][cur.Y] + 1;
+                return 0;
+            }
             if (maze[nx][ny] == 0 ||
                 jMove[nx][ny] != -1 ||
                 (fMove[nx][ny] != -1 && 
@@ -82,43 +79,5 @@ int main() {
             jMove[nx][ny] = jMove[cur.X][cur.Y] + 1;
         }
     }
-
-    int minimum = __INT32_MAX__;
-    // 테두리를 모두 탐색
-    for (int i = 0; i < C; i++) {
-        if (jMove[0][i] != -1 && minimum > jMove[0][i])
-            minimum = jMove[0][i];
-        
-        if (jMove[R-1][i] != -1 && minimum > jMove[R-1][i])
-            minimum = jMove[R-1][i];
-    }
-
-    for (int i = 0; i < R; i++) {
-        if (jMove[i][0] != -1 && minimum > jMove[i][0])
-            minimum = jMove[i][0];
-        
-        if (jMove[i][C-1] != -1  && minimum > jMove[i][C-1])
-            minimum = jMove[i][C-1];
-    }
-
-    if (minimum == __INT32_MAX__) cout << "IMPOSSIBLE" <<'\n';
-    else  cout << minimum + 1 << '\n';
-
-    // cout << "JIHOON MOVE" << '\n';
-    // for (int i = 0; i < R; i++) {
-    //     for (int j = 0; j < C; j++) {
-    //         cout << jMove[i][j] << ' ';
-    //     }
-    //     cout << '\n';
-    // }
-    // cout << '\n';
-
-    // cout << "FIRE MOVE" << '\n';
-    // for (int i = 0; i < R; i++) {
-    //     for (int j = 0; j < C; j++) {
-    //         cout << fMove[i][j] << ' ';
-    //     }
-    //     cout << '\n';
-    // }
-    // cout << '\n';
+    cout << "IMPOSSIBLE" << '\n';
 }
