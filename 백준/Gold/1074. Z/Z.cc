@@ -5,9 +5,6 @@ int z(int n, int r, int c) {
     if (n == 0) return 0;
     int n2 = 1 << n;
     int ndiv2 = n2 / 2;
-    // int ndiv4 = n2 / 4;
-    // int dr = r / 2;
-    // int dc = c / 2;
     int pr = (int) r >= ndiv2;
     int pc = (int) c >= ndiv2;
 
@@ -18,6 +15,8 @@ int z(int n, int r, int c) {
 }
 
 int main() {
+    ios_base::sync_with_stdio(0);
+    cin.tie(0); cout.tie(0);
     int N, R, C;
     cin >> N >> R >> C;
     cout << z(N, R, C);
