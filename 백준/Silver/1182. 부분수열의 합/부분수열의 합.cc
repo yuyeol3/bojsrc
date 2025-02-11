@@ -5,7 +5,6 @@ using namespace std;
 
 int N, S, cnt;
 int dat[20];
-int use[20];
 
 void f(int idx, int sum) {
     if (idx == N) {
