@@ -1,96 +1,38 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int nums[10];
-bool used[10];
-int res[10];
-int M, N;
+int n, m;
+int arr[10];
+int num[10];
+bool isused[10];
 
-/*
-숫자 중복은 가능하지만
-수열 자체는 중복되면 안됨
-
-used 처리하는법
-
-
-1. 
-*/
-// void f(int k, int idx) {
-//     if (idx > N || k > M) return;
-//     if (k == M) {
-//         // for (int i = 0; i < N; i++) {
-//         //     if (used[i])
-//         //         cout << nums[i] << ' ';
-//         // }
-//         for (int i = 0; i < M; i++) {
-//             cout << res[i] << ' ';
-//         }
-//         cout << '\n';
-//         return;
-//     }
-
-//     res[k] = nums[idx];
-//     used[idx] = 1;
-//     f(k+1, idx+1);
-//     used[idx] = 0;
-//     f(k, idx+1);
-
-// }
-
-unordered_set<string> rset;
-
-void f(int k) {
-    if (k == M) {
-        string s = "";
-        for (int i = 0; i < M; i++) {
-            s += to_string(res[i]) + " ";
+void func(int k) {
+    if (k == m) {
+        for (int i = 0; i < m; i++) {
+            cout << arr[i] << ' ';
         }
-
-        if (rset.find(s) == rset.end()) {
-            rset.insert(s);
-            cout << s << '\n';
-        }
+        cout << '\n';
         return;
     }
 
-    for (int i = 0; i < N; i++) {
-        if (!used[i]) {
-            res[k] = nums[i];
-            used[i] = 1;
-            f(k+1);
-            used[i] = 0;
+    int tmp = 0; // 중복수열 확인
+    for (int i = 0; i < n; i++) {
+        if (!isused[i] && tmp != num[i]) {
+            isused[i] = true;
+            arr[k] = num[i];
+            tmp = arr[k];
+            func(k+1);
+            isused[i] = false;
         }
     }
-    
-
 }
 
 int main() {
     ios_base::sync_with_stdio(0);
     cin.tie(0); cout.tie(0);
-    cin >> N >> M;
-    for (int i = 0; i < N; i++)
-        cin >> nums[i];
-    sort(nums, nums+N);
-    f(0);
-    // do {
-    //     for (int i = 0; i < N; i++)
-    //         cout << nums[i] << ' ';
-    //     cout << '\n';
-    // } while(next_permutation(nums, nums+M));
+    cin >> n >> m;
+    for (int i = 0; i < n; i++)
+        cin >> num[i];
+    sort(num, num+n);
+    func(0);
 }
-
-/*
-1 7 9 9
-
-1 7
-1 9
-7 1
-7 9
-9 1
-9 7
-9 9
-
-
-
-*/
