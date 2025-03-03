@@ -1,17 +1,10 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define UP 1
-#define DOWN 0
-#define LEFT 3
-#define RIGHT 2
-
-using ll = long long;
-
 int N;
-ll board[21][21];
+int board[21][21];
 
-void move(int dir, ll dat[][21]) {
+void move(int dir, int dat[][21]) {
     /*
         위 : 열 방향으로 아래부터 훑기
         아래 : 열 방향, 위부터
@@ -31,7 +24,7 @@ void move(int dir, ll dat[][21]) {
     int *coords[2] = {&x, &y};
     int rev = moves[dir][4];
     for (int i = 0; i < N; i++) {
-        deque<pair<ll, bool>> st;
+        deque<pair<int, bool>> st;
         for (int j = 0; j < N; j++) {
             // cout << '(' << x << ',' << y << ')' << '\n';            
             if (dat[x][y]) {  // dat[x][y] 가 0이 아닌 경우
@@ -67,30 +60,10 @@ void move(int dir, ll dat[][21]) {
         *coords[!rev] = moves[dir][!rev];
         *coords[rev] += moves[dir][2 + rev];
     }
-
-
-    // // 디버그용 출력
-    // for (int a = 0; a < N; a++) {
-    //     for (int b = 0; b < N; b++) {
-    //         // cout << dat[a][b] << ' ';
-    //         printf("%4d ", dat[a][b]);
-    //     }
-    //     cout << "\n";
-    // }
-    // cout << "---------------\n";
-
 }
 
-ll solve(int dirs[]) {
-
-    // // 디버그용 출력
-    // cout << "Case: ";
-    // for (int i = 0; i < 5; i++) {
-    //     cout << dirs[i] << ' ';
-    // }
-    // cout << '\n';
-
-    ll tmpBoard[21][21];
+int solve(int dirs[]) {
+    int tmpBoard[21][21];
     for (int i = 0; i < N; i++) 
         for (int j = 0; j < N; j++) 
             tmpBoard[i][j] = board[i][j];
@@ -99,7 +72,7 @@ ll solve(int dirs[]) {
         move(dirs[i], tmpBoard);
     }
 
-    ll maximum = 0;
+    int maximum = 0;
     for (int i = 0; i < N; i++) {
         for (int j = 0; j < N; j++) {
             maximum = max(maximum, tmpBoard[i][j]);
@@ -110,8 +83,8 @@ ll solve(int dirs[]) {
 }
 
 int main() {
-    // ios_base::sync_with_stdio(0);
-    // cin.tie(0); cout.tie(0);
+    ios_base::sync_with_stdio(0);
+    cin.tie(0); cout.tie(0);
 
     cin >> N;
     for (int i = 0; i < N; i++) {
@@ -120,7 +93,7 @@ int main() {
         }
     }
 
-    ll maximum = 0;
+    int maximum = 0;
     int SP = 1 << 10;
     // 모든 경우의 수 구하기
     for (int i = 0; i < SP; i++) {
@@ -133,8 +106,6 @@ int main() {
 
         maximum = max(maximum, solve(nums));
     }
-    // N = 2;
-    // move(RIGHT);
     cout << maximum << '\n';
     return 0;
 }
