@@ -1,29 +1,21 @@
-#include <iostream>
-#include <vector>
-#define MAX 1000001
+#include <bits/stdc++.h>
 using namespace std;
 
-int memo[MAX];
-
-int getMinCalc(int n) {
-    if (n == 1) return 0;
-    if (memo[n] != -1) return memo[n];
-
-    int result = getMinCalc(n - 1) + 1;
-    if (!(n % 2))
-        result = min(result, getMinCalc(n / 2) + 1);
-    if (!(n % 3))
-        result = min(result, getMinCalc(n / 3) + 1);
-    
-    memo[n] = result;
-    return result;
-}
-
+const int MX = 1000002;
+int dp[MX];
 
 int main() {
-    int n;
-    scanf("%d", &n);
-    fill(memo, memo+MAX, -1);
-    printf("%d\n", getMinCalc(n));
-    return 0;
+    ios_base::sync_with_stdio(0);
+    cin.tie(0); cout.tie(0);
+    int N;
+    cin >> N;
+    dp[1] = 0;
+    for (int i = 2; i <= N; i++) {
+        int minimum = INT_MAX;
+        if (i % 3 == 0) minimum = min(dp[i / 3] + 1, minimum);
+        if (i % 2 == 0) minimum = min(dp[i / 2] + 1, minimum);
+        minimum = min(dp[i-1] + 1, minimum);
+        dp[i] = minimum;
+    }
+    cout << dp[N] << '\n';
 }
