@@ -1,45 +1,32 @@
-#include <cstdio>
-#include <vector>
-#define WMAX 100001
-#define PMAX 101
+#include <bits/stdc++.h>
 using namespace std;
 
-struct product {
-    int weight;
-    int value;
-};
+int dp[105][1000005];
+int V[105], W[105];
+int N, K;
 
-int dp[WMAX][PMAX];
-vector<product> prods;
+/**
+ * w만큼의 무게가 남았을 때, i를 넣을 경우의 최대 가치
+ */
+int f(int i, int w) {
+    if (w <= 0 || i < 0) return 0;
+    if (dp[i][w] != -1) return dp[i][w];
 
-int f(int wei, int idx) {
-    if (idx < 0) return 0;
-    if (dp[wei][idx] != -1) return dp[wei][idx];
-
-    int res = max(0, f(wei, idx-1));
-    if (wei-prods[idx].weight >= 0)
-        res = max(res, prods[idx].value + f(wei-prods[idx].weight, idx-1));
-
-    dp[wei][idx] = res;
-    return dp[wei][idx];
+    if (w < W[i]) dp[i][w] = f(i-1, w);
+    else dp[i][w] = max(f(i-1, w), f(i-1, w-W[i]) + V[i]);
+    return dp[i][w];
 }
 
 int main() {
-    int N, K;
-    scanf("%d %d", &N, &K);
-    for (int i = 0; i < N; ++i) {
-        product pd;
-        scanf("%d %d", &pd.weight, &pd.value);
-        prods.push_back(pd);
+    cin >> N >> K;
+
+    for (int i = 0; i < N; i++) {
+        cin >> W[i] >> V[i];
     }
 
-    // dp 배열 초기화
-    for (int i = 0; i < K+1; ++i) {
-        for (int j = 0; j < N+1; ++j) {
-            dp[i][j] = -1;
-        }
-    }
-    printf("%d\n", f(K, N-1));
-
+    for (int i = 0; i < N; i++)
+        fill(dp[i], dp[i]+K+1, -1);
+    
+    cout << f(N-1, K) << '\n';
     return 0;
 }
