@@ -36,8 +36,6 @@ int main() {
                 dp[i][j] = -1;
             }
         }
-
-   
         printf("%d %d\n", fibo01(n,0), fibo01(n,1));
     }
 
