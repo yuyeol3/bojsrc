@@ -1,26 +1,21 @@
-#include <iostream>
-#include <vector>
+#include <bits/stdc++.h>
 using namespace std;
 
-vector<long long> dp;
-
-long long f(int n) {
-    if (n <= 0) return 0; 
-    if (n == 1) return 1;
-    if (dp[n] != -1) return dp[n];
-
-    long long res = 1;
-    for (int i = 1; i < n -1; ++i) {
-        res += f(i);
-    }
-    dp[n] = res;
-    return res;
-}
+long long dp[91];
 
 int main() {
     int n;
-    scanf("%d", &n);
-    dp.resize(n+1, -1);
-    printf("%lld\n", f(n));
-    return 0;
+    cin >> n;
+
+    dp[1] = 1;
+    dp[2] = 1;
+    // dp[3] = 2;
+
+    for (int i = 3; i <= n; i++) {
+        dp[i] = dp[i-1] + dp[i-2];
+    }
+
+    // for (auto e : dp) cout << e << '\n';
+    // cout << '\n';
+    cout << dp[n] << '\n';
 }
