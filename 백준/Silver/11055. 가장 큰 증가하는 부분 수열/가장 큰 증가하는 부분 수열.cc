@@ -1,44 +1,26 @@
-#include <cstdio>
-#include <vector>
-#define MAX 1001
+#include <bits/stdc++.h>
 using namespace std;
 
-int dp[MAX][MAX];
-int series[MAX];
-int N;
-/*
- * idx부터 가장 큰 증가 수열의 합을 구하는 함수
- */
-int f(int idx, int prev) {
-    // printf("%d %d\n", idx, prev);
-    if (idx >= N) return prev;
-    if (dp[idx][prev] != -1) return dp[idx][prev];
+const int MX = 1002;
 
-    int res = 0;
-    res = max(res, f(idx+1, prev));
-    if (series[idx] > prev) res = max(res, prev + f(idx+1, series[idx]));
-
-    dp[idx][prev] = res;
-    return res;
-}
+int n;
+int dp[MX], a[MX];
 
 int main() {
-    scanf("%d", &N);
+    ios::sync_with_stdio(0);
+    cin.tie(0); cout.tie(0);
+    cin >> n;
 
-    int max = 0;
-    for (int i = 0; i < N; ++i) {
-        scanf("%d", &series[i]);
-        if (series[i] > max)
-            max = series[i];
+    for (int i = 0; i < n; i++) {
+        cin >> a[i];
+        dp[i] = a[i];
     }
-
-    for (int i = 0; i < N + 1; ++i) {
-        for (int j = 0; j < max + 1; j++) {
-            dp[i][j] = -1;
+    
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < i; j++) {
+            if (a[j] < a[i]) dp[i] = max(dp[i], dp[j] + a[i]);
         }
     }
 
-    printf("%d\n", f(0, 0));
-
-    return 0;
+    cout << *max_element(dp, dp+n);
 }
