@@ -22,16 +22,18 @@ constexpr int date(int month, int date) {
 }
 
 int N;
-int st[100005], ed[100005];
+// int st[100005], ed[100005];
 int dp[366];
 int main() {
+    ios::sync_with_stdio(0);
+    cin.tie(0); cout.tie(0);
     cin >> N;
     for (int i = 0; i < N; i++) {
         int m1, d1, m2, d2;
         cin >> m1 >> d1 >> m2 >> d2;
-        st[i] = date(m1, d1);
-        ed[i] = date(m2, d2);
-        dp[st[i]] = max(dp[st[i]], ed[i] - st[i]);
+        int st = date(m1, d1);
+        int ed = date(m2, d2);
+        dp[st] = max(dp[st], ed - st);
     }
 
     for (int d = date(1, 2); d <= date(12, 31); d++) {
