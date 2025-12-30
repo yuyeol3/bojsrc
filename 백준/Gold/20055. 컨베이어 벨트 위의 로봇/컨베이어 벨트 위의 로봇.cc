@@ -7,12 +7,7 @@ int N, K;
 int wear[205];
 bool belt[205];
 
-void printArr(bool *arr, int N) {
-    for (int i = 0; i < N; i++) {
-        cout << arr[i] << ' ';
-    }
-    cout << '\n';
-}
+
 
 int main() {
     ios::sync_with_stdio(0);
@@ -25,6 +20,7 @@ int main() {
 
     int step = 0;
     int offset = 0;
+    int wear_cnt = 0;
     /*
     0 -> 1 -> 2 -> 3 0  (4 + 3 - 0) % 4
     3 -> 0 -> 1 -> 2 1  (4 + 3 - 1) % 4
@@ -42,6 +38,7 @@ int main() {
             if (!belt[IDX(i+1)] && wear[IDX(i+1)] >= 1) {
                 belt[IDX(i)] = false;
                 wear[IDX(i+1)]--;
+                wear_cnt += (wear[IDX(i+1)] == 0);
                 belt[IDX(i+1)] = (i != N-2);
             }
 
@@ -50,12 +47,13 @@ int main() {
         if (wear[IDX(0)] >= 1) {
             belt[IDX(0)] = true;
             wear[IDX(0)]--;
+            wear_cnt += (wear[IDX(0)] == 0);
         }
 
-        int wear_cnt = 0;
-        for (int i = 0; i < 2*N; i++) {
-            if (wear[i] == 0) wear_cnt++;
-        }
+        // int wear_cnt = 0;
+        // for (int i = 0; i < 2*N; i++) {
+        //     if (wear[i] == 0) wear_cnt++;
+        // }
         if (wear_cnt >= K) break;
         // belt[IDX(N-1)] = false;
     }
