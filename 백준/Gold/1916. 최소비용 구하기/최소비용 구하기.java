@@ -1,13 +1,23 @@
 import java.util.*;
 import java.io.*;
 
-class Node {
+class State {
     public long dist;
-    public int num;
+    public int node;
 
-    public Node(long dist, int num) {
-        this.num = num;
+    public State(long dist, int node) {
+        this.node = node;
         this.dist = dist;
+    }
+}
+
+class Edge {
+    public int cost;
+    public int node;
+
+    public Edge(int node, int cost) {
+        this.node = node;
+        this.cost = cost;
     }
 }
 
@@ -20,7 +30,7 @@ class Main {
         int M = Integer.parseInt(br.readLine());
 
         @SuppressWarnings("unchecked")
-        List<Node>[] graph = new ArrayList[N+5];
+        List<Edge>[] graph = new ArrayList[N+5];
         for (int i = 0; i < N+5; i++)
             graph[i] = new ArrayList<>();
 
@@ -33,7 +43,7 @@ class Main {
             b = Integer.parseInt(s.nextToken());
             e = Integer.parseInt(s.nextToken());
 
-            graph[a].add(new Node(e, b));
+            graph[a].add(new Edge(b, e));
         }
 
         s = new StringTokenizer(br.readLine());
@@ -47,19 +57,20 @@ class Main {
         }
         distances[st] = 0;
 
-        PriorityQueue<Node> pq = new PriorityQueue<>(Comparator.comparingLong(n -> n.dist));
-        pq.offer(new Node(0, st));
+        PriorityQueue<State> pq = new PriorityQueue<>(Comparator.comparingLong(n -> n.dist));
+        pq.offer(new State(0, st));
 
         while (!pq.isEmpty()) {
-            Node node = pq.poll();
-            if (distances[node.num] < node.dist) continue;
+            State state = pq.poll();
+            if (distances[state.node] < state.dist) continue;
+            if (state.node == ed) break;
 
-            for (Node adj : graph[node.num]) {
-                long newDist = node.dist + adj.dist;
+            for (Edge adj : graph[state.node]) {
+                long newDist = state.dist + adj.cost;
                 
-                if (newDist < distances[adj.num]) {
-                    distances[adj.num] = newDist;
-                    pq.offer(new Node(newDist, adj.num));
+                if (newDist < distances[adj.node]) {
+                    distances[adj.node] = newDist;
+                    pq.offer(new State(newDist, adj.node));
                 }
             }
         }
