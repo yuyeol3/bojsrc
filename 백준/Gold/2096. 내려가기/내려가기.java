@@ -7,7 +7,7 @@ class Main {
     public static void main(String[] args) throws IOException {
         int N = Integer.parseInt(br.readLine());
         int[][] arr = new int[N+5][3];
-        int[][][] dp = new int[N+5][3][2];
+        int[][][] dp = new int[2][3][2];
         StringTokenizer st;
         for (int i = 0; i < N; i++) {
             st = new StringTokenizer(br.readLine());
@@ -21,21 +21,25 @@ class Main {
             dp[0][i][1] = arr[0][i];
         }
 
+        int prev = 0, next = 1;
         for (int i = 1; i < N; i++) {
-            dp[i][0][0] = Math.min(dp[i-1][0][0], dp[i-1][1][0]) + arr[i][0];
-            dp[i][0][1] = Math.max(dp[i-1][0][1], dp[i-1][1][1]) + arr[i][0];
+            dp[next][0][0] = Math.min(dp[prev][0][0], dp[prev][1][0]) + arr[i][0];
+            dp[next][0][1] = Math.max(dp[prev][0][1], dp[prev][1][1]) + arr[i][0];
 
-            dp[i][1][0] = Math.min(Math.min(dp[i-1][0][0], dp[i-1][1][0]), dp[i-1][2][0]) +  arr[i][1];
-            dp[i][1][1] = Math.max(Math.max(dp[i-1][0][1], dp[i-1][1][1]), dp[i-1][2][1]) +  arr[i][1];
+            dp[next][1][0] = Math.min(Math.min(dp[prev][0][0], dp[prev][1][0]), dp[prev][2][0]) +  arr[i][1];
+            dp[next][1][1] = Math.max(Math.max(dp[prev][0][1], dp[prev][1][1]), dp[prev][2][1]) +  arr[i][1];
 
-            dp[i][2][0] = Math.min(dp[i-1][1][0], dp[i-1][2][0]) + arr[i][2];
-            dp[i][2][1] = Math.max(dp[i-1][1][1], dp[i-1][2][1]) + arr[i][2];
+            dp[next][2][0] = Math.min(dp[prev][1][0], dp[prev][2][0]) + arr[i][2];
+            dp[next][2][1] = Math.max(dp[prev][1][1], dp[prev][2][1]) + arr[i][2];
+
+            prev = (prev + 1) % 2;
+            next = (next + 1) % 2;
         }
 
-
+        
         int minScore, maxScore;
-        minScore = Math.min(Math.min(dp[N-1][0][0], dp[N-1][1][0]), dp[N-1][2][0]);
-        maxScore = Math.max(Math.max(dp[N-1][0][1], dp[N-1][1][1]), dp[N-1][2][1]);
+        minScore = Math.min(Math.min(dp[prev][0][0], dp[prev][1][0]), dp[prev][2][0]);
+        maxScore = Math.max(Math.max(dp[prev][0][1], dp[prev][1][1]), dp[prev][2][1]);
         bw.write(String.format("%d %d\n", maxScore, minScore));
         bw.flush();
     }
