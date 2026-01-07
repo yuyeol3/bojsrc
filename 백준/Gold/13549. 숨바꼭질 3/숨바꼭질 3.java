@@ -5,8 +5,8 @@ import java.io.*;
 class Main {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-    static final int INF = 100005;
     static final int[] costs = {1,1,0};
+    static final int INF = 100005;
     static class State {
         public int dist;
         public int num;
@@ -22,32 +22,49 @@ class Main {
         int N = Integer.parseInt(st.nextToken());
         int K = Integer.parseInt(st.nextToken());
 
-        int[] distances = new int[INF];
+        if (N == K) {
+            bw.write(0 + "\n");
+            bw.flush();
+            return;
+        }
+        else if (N > K) {
+            bw.write(N - K + "\n");
+            bw.flush();
+            return;
+        }
+
+        int[] distances = new int[Math.max(N, K)+5];
         Arrays.fill(distances, INF);
-
-        PriorityQueue<State> pq = new PriorityQueue<>(Comparator.comparingLong(e->e.dist));
+        Deque<State> q = new ArrayDeque<>();
+        q.addLast(new State(0, N));
         distances[N] = 0;
-        pq.offer(new State(0, N));
 
-        while (!pq.isEmpty()) {
-            State s = pq.poll();
+        int result = 0;
+        while (!q.isEmpty()) {
+            State s = q.pop();
             if (s.dist > distances[s.num]) continue;
-            if (s.num == K) break;
-            int[] adjs = {s.num-1, s.num+1, 2*s.num};
+            if (s.num == K) {
+                result = s.dist;
+                break;
+            }
+            int[] adjs = {s.num+1, s.num-1, 2*s.num};
             for (int i = 0; i < 3; i++) {
                 int adjNum = adjs[i];
                 int adjCost = costs[i];
                 if (adjNum > Math.max(K, N) + 2 || adjNum < 0) continue;
-
-                int newDist = s.dist + adjCost;
-                if (newDist < distances[adjNum]) {
-                    distances[adjNum] = newDist;
-                    pq.offer(new State(newDist, adjNum));
+                
+                if (s.dist + adjCost < distances[adjNum]) {
+                    distances[adjNum] = s.dist + adjCost;
+                    if (adjCost == 1) 
+                        q.addLast(new State(s.dist + 1, adjNum));
+                    else
+                        q.addFirst(new State(s.dist, adjNum));
                 }
+                
             }   
         }
 
-        bw.write(distances[K] + "\n");
+        bw.write(result + "\n");
         bw.flush();
     }
 }
