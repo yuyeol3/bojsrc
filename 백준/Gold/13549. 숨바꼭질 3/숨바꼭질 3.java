@@ -22,7 +22,7 @@ class Main {
         int N = Integer.parseInt(st.nextToken());
         int K = Integer.parseInt(st.nextToken());
 
-        int[] distances = new int[INF*2];
+        int[] distances = new int[INF];
         Arrays.fill(distances, INF);
 
         PriorityQueue<State> pq = new PriorityQueue<>(Comparator.comparingLong(e->e.dist));
@@ -37,7 +37,7 @@ class Main {
             for (int i = 0; i < 3; i++) {
                 int adjNum = adjs[i];
                 int adjCost = costs[i];
-                if (adjNum > Math.max(K, N) * 2 || adjNum < 0) continue;
+                if (adjNum > Math.max(K, N) + 2 || adjNum < 0) continue;
 
                 int newDist = s.dist + adjCost;
                 if (newDist < distances[adjNum]) {
