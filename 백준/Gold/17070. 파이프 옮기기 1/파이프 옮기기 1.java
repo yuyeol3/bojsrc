@@ -33,7 +33,7 @@ class Main {
         }
 
         Deque<State> dq = new ArrayDeque<>();
-        dq.addLast(new State(1, 2, 1));
+        dq.addFirst(new State(1, 2, 1));
         int result = 0;
 
         while (!dq.isEmpty()) {
@@ -57,7 +57,7 @@ class Main {
                     continue;
 
 
-                dq.addLast(new State(cr, cc, i+1));
+                dq.addFirst(new State(cr, cc, i+1));
             }
 
         }
