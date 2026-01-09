@@ -5,25 +5,11 @@ class Main {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
-    static class State {
-        public int dir;  // 1 : 가로, 2 : 세로, 3 : 대각선
-        public int r, c;
-
-        public State(int r, int c, int dir) {
-            this.r = r;
-            this.c = c;
-            this.dir = dir;
-        }
-    }
-
-    static int[] dr = {0, 1, 1};
-    static int[] dc = {1, 0, 1};
-
     public static void main(String[] args) throws IOException {
         int N = Integer.parseInt(br.readLine());
 
         int arr[][] = new int[N+5][N+5];
-
+        int dp[][][] = new int[N+5][N+5][3];
         StringTokenizer st;
         for (int i = 1; i <= N; i++) {
             st = new StringTokenizer(br.readLine());
@@ -32,37 +18,66 @@ class Main {
             }
         }
 
-        Deque<State> dq = new ArrayDeque<>();
-        dq.addFirst(new State(1, 2, 1));
-        int result = 0;
+        /*
+        dp[i][j][k] : i, j에서 k방향으로 올 수 있는 방법의 수
+        dp[i][j] = (i,j) 로 올수있는 개수들
+        */
+        dp[1][2][0] = 1;
+        for (int i = 1; i <= N; i++) {
+            for (int j = 1; j <= N; j++) {
 
-        while (!dq.isEmpty()) {
-            State s = dq.poll();
-            if (s.r == N && s.c == N) {
-                result++;
-                continue;
+                if (arr[i][j] != 0) continue;
+
+                // if (j > 2) {
+                //     dp[i][j][0] += dp[i][j-1][0];
+                // }
+
+                // if (i > 2) {
+                //     dp[i][j][1] += dp[i-1][j][1];
+                // }
+
+                // if (arr[i-1][j] == 0 && arr[i][j-1] == 0 && (i > 2 || j > 2)) {
+                //     dp[i][j] += dp[i-1][j-1];
+                // }
+
+                if (j > 2) {
+                    dp[i][j][0] += dp[i][j-1][0]; // 가로 -> 가로
+
+                    // 가로 -> 대각선
+                    if (arr[i-1][j] == 0 && arr[i][j-1] == 0)
+                        dp[i][j][2] += dp[i-1][j-1][0];
+                }
+
+                if (i > 2) {
+                    dp[i][j][1] += dp[i-1][j][1];  // 세로 -> 세로
+
+                    // 세로 -> 대각선
+                    if (arr[i-1][j] == 0 && arr[i][j-1] == 0)
+                        dp[i][j][2] += dp[i-1][j-1][1];
+                }
+
+                // if (i > 2 && j > 2) {
+                    dp[i][j][0] += dp[i][j-1][2]; // 대각선 -> 가로
+                    dp[i][j][1] += dp[i-1][j][2]; // 대각선 -> 세로
+
+                    // 대각선 -> 대각선
+                    if (arr[i-1][j] == 0 && arr[i][j-1] == 0)
+                        dp[i][j][2] += dp[i-1][j-1][2];
+                // }
+
             }
-
-            for (int i = 0; i < 3; i++) {
-                if (s.dir == 1 && i == 1) continue;
-                if (s.dir == 2 && i == 0) continue;
-
-                int cr = s.r + dr[i];
-                int cc = s.c + dc[i];
-
-                if (cr < 1 || cr > N) continue;
-                if (cc < 1 || cc > N) continue;
-                if (arr[cr][cc] > 0) continue;
-                if (i == 2 && (arr[cr-1][cc] > 0 || arr[cr][cc-1] > 0))
-                    continue;
-
-
-                dq.addFirst(new State(cr, cc, i+1));
-            }
-
         }
 
-        bw.write(result + "\n");
+        // bw.write("\n");
+        // for (int i = 1; i <= N; i++) {
+        //     for (int j = 1; j <= N; j++) {
+        //         bw.write("(" + dp[i][j][0] + "," + dp[i][j][1] + "," + dp[i][j][2] + ") ");
+        //     }
+        //     bw.write("\n");
+        // }
+        // bw.write("\n");
+
+        bw.write((dp[N][N][0] + dp[N][N][1] + dp[N][N][2]) + "\n");
         bw.flush();
     }
 }
