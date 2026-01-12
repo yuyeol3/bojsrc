@@ -4,91 +4,92 @@ import java.io.*;
 class Main {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    static int[] parent;
+
+    static void initialize(int n) {
+        parent = new int[n+1];
+        for (int i = 0; i <= n; i++) {
+            parent[i] = i;
+        }
+    }
+
+    static int find(int x) {
+        if (parent[x] == x) return x;
+        return parent[x] = find(parent[x]);
+    }
+
+    static void union(int a, int b) {
+        int rootA = find(a);
+        int rootB = find(b);
+
+        if (rootA != rootB) 
+            parent[rootB] = rootA;
+    }
+
+    static boolean isEquivalent(int a, int b) {
+        return find(a) == find(b);
+    }
+
     public static void main(String[] args) throws IOException{
         StringTokenizer st = new StringTokenizer(br.readLine());
         int N, M;
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
 
-        @SuppressWarnings("unchecked")
-        List<Integer>[] partyParticipant = new List[M+1];
+        initialize(N);
 
-        @SuppressWarnings("unchecked")
-        List<Integer>[] participantParty = new List[N+1];
 
-        // O(M)
-        for (int i = 0; i < M+1; i++) 
-            partyParticipant[i] = new ArrayList<>();
-
-        // O(N)
-        for (int i = 0; i < N+1; i++)
-            participantParty[i] = new ArrayList<>();
-        
-        int liable = M;
-        boolean[] liableParty = new boolean[M+5];
-
-        Arrays.fill(liableParty, true);
-
-        Deque<Integer> dq = new ArrayDeque<>();
-        boolean[] knowsTruth = new boolean[N+5];
         st = new StringTokenizer(br.readLine());
         int K = Integer.parseInt(st.nextToken());
 
+        if (K == 0) {
+            bw.write(M + "\n");
+            bw.flush();
+            return;
+        }
+
         // O(K)
+        int[] knowsTruth = new int[K];
         for (int i = 0; i < K; i++) {
-            int pNum = Integer.parseInt(st.nextToken());
-            knowsTruth[pNum] = true;
-            dq.addLast(pNum);
+            knowsTruth[i] = Integer.parseInt(st.nextToken());
+            union(knowsTruth[0], knowsTruth[i]);
         }
         
         // O(M)
-        for (int i = 1; i <= M; i++) {
+        int[] partyCrits = new int[M];
+        for (int i = 0; i < M; i++) {
             st = new StringTokenizer(br.readLine());
             int partyNum = Integer.parseInt(st.nextToken());
-
-            while (st.hasMoreTokens()) {
+            partyCrits[i] = Integer.parseInt(st.nextToken());
+            
+            for (int j = 0; j < partyNum-1; j++) {
                 int participantNum = Integer.parseInt(st.nextToken());
-                partyParticipant[i].add(participantNum);
-                participantParty[participantNum].add(i);
+                union(partyCrits[i], participantNum);
             }
         }
 
-        /*
-        거짓말쟁이로 알려지지 않기 위한 조건
-        1. 진실을 아는 사람이 있는 파티에서 거짓말하지 않는다.
-        2. 진실을 아는 사람이 있는 파티에도 참석하는 사람이 있는 파티에서 거짓말하지 않는다.
+        // int result = 0;
+        // for (int crit : partyCrits) {
 
-        진실을 아는 사람을 큐에 먼저 넣고, 진실을 아는 사람과 같은 파티에 참석하는 참가자를 인접 노드로 본다.
-
-        */
+        // }
         
-        // O(N + NK?)
-        while (!dq.isEmpty()) {
-            int p = dq.poll(); // 진실을 아는 사람
+        // for (int truth : knowsTruth) {
+        //     union(knowsTruth[0], truth);
+        // }
 
-            for (int party : participantParty[p]) {
-                if (!liableParty[party]) continue;
-                liable--;
-                liableParty[party] = false;
-                for (int participant : partyParticipant[party]) {
-                    if (knowsTruth[participant]) continue;
-                    knowsTruth[participant] = true;
-                    dq.addLast(participant);
-                }
-            }
+        // 각 동치류가 어떻게 되어있는지 보자
+        // for (int i = 1; i <= N; i++) {
+        //     bw.write("i=" + i + "->" + find(i) + "\n");
+        // }
+
+        int result = 0;
+        int truthRoot = find(knowsTruth[0]);
+        for (int crit : partyCrits) {
+            if (find(crit) != truthRoot) 
+                result++;
         }
 
-        // for (List<Integer> l : partyParticipant) {
-        //     bw.write(l + "\n");
-        // }
-        // bw.write("\n");
-        // // bw.write(participantParty + "\n\n");
-        // for (int i = 1; i <= M; i++) {
-        //     bw.write(liableParty[i] + " ");
-        // }
-        // bw.write("\n");
-        
-        bw.write(liable + "\n");
+        bw.write(result + "\n");
         bw.flush();
     }    
 }
