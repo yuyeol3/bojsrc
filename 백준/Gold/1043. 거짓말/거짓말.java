@@ -49,11 +49,10 @@ class Main {
         }
 
         // O(K)
-        int[] knowsTruth = new int[K];
-        for (int i = 0; i < K; i++) {
-            knowsTruth[i] = Integer.parseInt(st.nextToken());
-            union(knowsTruth[0], knowsTruth[i]);
-        }
+        int knowsTruth = Integer.parseInt(st.nextToken());
+        for (int i = 0; i < K-1; i++)
+            union(knowsTruth, Integer.parseInt(st.nextToken()));
+        
         
         // O(M)
         int[] partyCrits = new int[M];
@@ -77,13 +76,13 @@ class Main {
         //     union(knowsTruth[0], truth);
         // }
 
-        // 각 동치류가 어떻게 되어있는지 보자
+        // // 각 동치류가 어떻게 되어있는지 보자
         // for (int i = 1; i <= N; i++) {
         //     bw.write("i=" + i + "->" + find(i) + "\n");
         // }
 
         int result = 0;
-        int truthRoot = find(knowsTruth[0]);
+        int truthRoot = find(knowsTruth);
         for (int crit : partyCrits) {
             if (find(crit) != truthRoot) 
                 result++;
