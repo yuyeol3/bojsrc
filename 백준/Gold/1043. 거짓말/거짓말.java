@@ -3,13 +3,14 @@ import java.io.*;
 
 class Main {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
     static int[] parent;
-
+    static int[] rank;
     static void initialize(int n) {
         parent = new int[n+1];
+        rank = new int[n+1];
         for (int i = 0; i <= n; i++) {
             parent[i] = i;
+            rank[i] = 0;
         }
     }
 
@@ -22,8 +23,19 @@ class Main {
         int rootA = find(a);
         int rootB = find(b);
 
-        if (rootA != rootB) 
-            parent[rootB] = rootA;
+        if (rootA == rootB) return;
+
+        if (rank[rootB] > rank[rootA]) {
+            int tmp = rootA;
+            rootA = rootB;
+            rootB = tmp;
+        }
+
+        // if (rootA != rootB) 
+        parent[rootB] = rootA;
+
+        if (rank[rootA] == rank[rootB])
+            rank[rootA] += 1;
     }
 
     static boolean isEquivalent(int a, int b) {
@@ -43,8 +55,7 @@ class Main {
         int K = Integer.parseInt(st.nextToken());
 
         if (K == 0) {
-            bw.write(M + "\n");
-            bw.flush();
+            System.out.println(M);
             return;
         }
 
@@ -67,19 +78,6 @@ class Main {
             }
         }
 
-        // int result = 0;
-        // for (int crit : partyCrits) {
-
-        // }
-        
-        // for (int truth : knowsTruth) {
-        //     union(knowsTruth[0], truth);
-        // }
-
-        // // 각 동치류가 어떻게 되어있는지 보자
-        // for (int i = 1; i <= N; i++) {
-        //     bw.write("i=" + i + "->" + find(i) + "\n");
-        // }
 
         int result = 0;
         int truthRoot = find(knowsTruth);
@@ -88,7 +86,6 @@ class Main {
                 result++;
         }
 
-        bw.write(result + "\n");
-        bw.flush();
+        System.out.println(result);
     }    
 }
