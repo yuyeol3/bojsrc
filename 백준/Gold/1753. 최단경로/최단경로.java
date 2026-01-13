@@ -36,8 +36,8 @@ class Main {
         Arrays.fill(dist, INF);
         
         @SuppressWarnings("unchecked")
-        List<Edge>[] graph = new List[E+5];
-        for (int i = 0; i < E+5; i++)
+        List<Edge>[] graph = new List[V+5];
+        for (int i = 0; i < V+5; i++)
             graph[i] = new ArrayList<>();
 
 
