@@ -5,12 +5,12 @@ import java.io.*;
 class Main {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-    static class Pair<T1, T2> {
-        T1 x;
-        T2 y;
+    static class Pair{
+        int x;
+        long y;
 
-        public static <T1, T2> Pair<T1, T2> of(T1 x, T2 y) {
-            var p = new Pair<T1, T2>();
+        public static Pair of(int x, long y) {
+            var p = new Pair();
             p.x = x;
             p.y = y;
             return p;
@@ -21,7 +21,7 @@ class Main {
         int n = Integer.parseInt(br.readLine());
 
         @SuppressWarnings("unchecked")
-        List<Pair<Integer, Integer>>[] tree = new List[n+1];
+        List<Pair>[] tree = new List[n+1];
 
         for (int i = 0; i <= n; i++)
             tree[i] = new ArrayList<>();
@@ -41,7 +41,7 @@ class Main {
         }
         
         boolean[] visited = new boolean[n+1];
-        Deque<Pair<Integer, Long>> dq = new ArrayDeque<>();
+        Deque<Pair> dq = new ArrayDeque<>();
         dq.addFirst(Pair.of(1, 0L));
         visited[1] = true;
 
