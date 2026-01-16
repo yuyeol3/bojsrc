@@ -1,0 +1,79 @@
+import java.util.*;
+import java.io.*;
+
+
+class Main {
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+    static class Pair<T1, T2> {
+        T1 x;
+        T2 y;
+
+        public static <T1, T2> Pair<T1, T2> of(T1 x, T2 y) {
+            var p = new Pair<T1, T2>();
+            p.x = x;
+            p.y = y;
+            return p;
+        }
+    }
+
+    public static void main(String[] args) throws IOException{
+        int n = Integer.parseInt(br.readLine());
+
+        @SuppressWarnings("unchecked")
+        List<Pair<Integer, Integer>>[] tree = new List[n+1];
+
+        for (int i = 0; i <= n; i++)
+            tree[i] = new ArrayList<>();
+
+        StringTokenizer st;
+        for (int i = 0; i < n-1; i++) {
+            st = new StringTokenizer(br.readLine());
+
+            int parent, child, weight;
+            parent = Integer.parseInt(st.nextToken());
+            child = Integer.parseInt(st.nextToken());
+            weight = Integer.parseInt(st.nextToken());
+
+            tree[parent].add(Pair.of(child, weight));
+            tree[child].add(Pair.of(parent, weight));
+
+        }
+        
+        boolean[] visited = new boolean[n+1];
+        Deque<Pair<Integer, Long>> dq = new ArrayDeque<>();
+        dq.addFirst(Pair.of(1, 0L));
+        visited[1] = true;
+
+        var U = Pair.of(0, 0L);        
+        while (!dq.isEmpty()) {
+            var s = dq.pollFirst();
+            
+            if (s.y > U.y) U = s;
+
+            for (var adj : tree[s.x]) {
+                if (visited[adj.x]) continue;
+                visited[adj.x] = true;
+                dq.addFirst(Pair.of(adj.x, s.y + adj.y));
+            }
+        }
+
+        Arrays.fill(visited, false);
+        dq.addFirst(Pair.of(U.x, 0L));
+        visited[U.x] = true;
+        long diameter = 0;
+        while (!dq.isEmpty()) {
+            var s = dq.pollFirst();
+            
+            if (s.y > diameter) diameter = s.y;
+
+            for (var adj : tree[s.x]) {
+                if (visited[adj.x]) continue;
+                visited[adj.x] = true;
+                dq.addFirst(Pair.of(adj.x, s.y + adj.y));
+            }
+        }
+
+        System.out.println(diameter);
+    }
+}
