@@ -16,8 +16,8 @@ class Main {
     }
 
     static class DoublePQ {
-        private PriorityQueue<Element> minQ ;
-        private PriorityQueue<Element> maxQ = new PriorityQueue<>((a, b)->Long.compare(b.data, a.data));
+        private PriorityQueue<Element> minQ;
+        private PriorityQueue<Element> maxQ;
 
         public static final long EMPTY = Integer.MIN_VALUE - 1L;
 
