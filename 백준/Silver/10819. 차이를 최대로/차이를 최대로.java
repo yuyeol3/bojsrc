@@ -6,10 +6,9 @@ class Main {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     static int N;
     static int[] nums = new int[10];
-    static int[] selected = new int[10];
     static boolean[] visited = new boolean[10];
     static int maximum = -1000;
-    public static void recur(int step, int result) {
+    public static void recur(int step, int result, int prev) {
 
         if (step == N) {
             maximum = Math.max(result, maximum);
@@ -21,9 +20,7 @@ class Main {
         for (int i = 0; i < N; i++) {
             if (visited[i]) continue;
             visited[i] = true;
-            selected[step] = nums[i];
-
-            recur(step+1, (step > 0 ? result + Math.abs(selected[step] - selected[step - 1]) : result));
+            recur(step+1, (step > 0 ? result + Math.abs(nums[i] - prev) : result), nums[i]);
             visited[i] = false;
         }
     }
@@ -35,7 +32,7 @@ class Main {
         for (int i = 0; i < N; i++)
             nums[i] = Integer.parseInt(st.nextToken());
 
-        recur(0, 0);
+        recur(0, 0, 0);
         System.out.println(maximum);
     }
 }
