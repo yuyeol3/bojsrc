@@ -8,24 +8,25 @@ class Main {
     static int[] nums = new int[10];
     static int[] selected = new int[10];
     static boolean[] visited = new boolean[10];
+    static int result = 0;
     static int maximum = -1000;
     public static void recur(int step) {
 
         if (step == N) {
-            int result = 0;
-            for (int i = 1; i < N; i++) {
-                result += Math.abs(selected[i] - selected[i-1]);
-            }
             maximum = Math.max(result, maximum);
             return;
         }
+
 
 
         for (int i = 0; i < N; i++) {
             if (visited[i]) continue;
             visited[i] = true;
             selected[step] = nums[i];
+
+            if (step > 0) result += Math.abs(selected[step] - selected[step - 1]);
             recur(step+1);
+            if (step > 0) result -= Math.abs(selected[step] - selected[step - 1]);
             visited[i] = false;
         }
     }
