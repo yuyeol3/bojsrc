@@ -8,9 +8,8 @@ class Main {
     static int[] nums = new int[10];
     static int[] selected = new int[10];
     static boolean[] visited = new boolean[10];
-    static int result = 0;
     static int maximum = -1000;
-    public static void recur(int step) {
+    public static void recur(int step, int result) {
 
         if (step == N) {
             maximum = Math.max(result, maximum);
@@ -24,9 +23,7 @@ class Main {
             visited[i] = true;
             selected[step] = nums[i];
 
-            if (step > 0) result += Math.abs(selected[step] - selected[step - 1]);
-            recur(step+1);
-            if (step > 0) result -= Math.abs(selected[step] - selected[step - 1]);
+            recur(step+1, (step > 0 ? result + Math.abs(selected[step] - selected[step - 1]) : result));
             visited[i] = false;
         }
     }
@@ -38,7 +35,7 @@ class Main {
         for (int i = 0; i < N; i++)
             nums[i] = Integer.parseInt(st.nextToken());
 
-        recur(0);
+        recur(0, 0);
         System.out.println(maximum);
     }
 }
