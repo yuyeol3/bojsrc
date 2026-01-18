@@ -6,7 +6,7 @@ class Main {
     static StringBuilder sb = new StringBuilder();
     static int N, M;
     // static boolean[] visited;
-    static int[] selected;
+    static int[] selected = new int[9];
 
 
     public static void recur(int step, int start) {
@@ -29,7 +29,6 @@ class Main {
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
 
-        selected = new int[M+1];
 
         recur(0, 1);
         System.out.print(sb);
