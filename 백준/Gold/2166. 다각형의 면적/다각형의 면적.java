@@ -27,7 +27,7 @@ class Main {
         rightDir += prevX * firstY;
         leftDir += prevY * firstX;
 
-        double result = Double.valueOf(Math.abs(rightDir-leftDir))/2.0D;
+        double result = Math.abs(rightDir-leftDir)/2.0D;
         System.out.printf("%.1f", result);
     }
 
