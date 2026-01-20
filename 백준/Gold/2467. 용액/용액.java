@@ -14,23 +14,22 @@ class Main {
         
         int leftPtr = 0;
         int rightPtr = N-1;
-        long minDist;
-        int minLeft, minRight;
-        minLeft = leftPtr;
-        minRight = rightPtr;
-        minDist = Math.abs(sols[leftPtr] + sols[rightPtr]);
+        
+        long minPh = Math.abs(sols[leftPtr] + sols[rightPtr]);
+        int minLeft = leftPtr;
+        int minRight = rightPtr;
 
         while (leftPtr < rightPtr) {
-            long curDist = sols[leftPtr] + sols[rightPtr];
+            long curPh = sols[leftPtr] + sols[rightPtr];
 
-            if (minDist > Math.abs(curDist)) {
-                minDist = Math.abs(curDist);
+            if (minPh > Math.abs(curPh)) {
+                minPh = Math.abs(curPh);
                 minLeft = leftPtr;
                 minRight = rightPtr;
             }
 
-            if (curDist > 0) rightPtr--;
-            else if (curDist < 0) leftPtr++;
+            if (curPh > 0) rightPtr--;
+            else if (curPh < 0) leftPtr++;
             else break;
         }
 
