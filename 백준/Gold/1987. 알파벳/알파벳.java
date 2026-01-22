@@ -27,6 +27,10 @@ class Main {
 
     public static void dfs(int x, int y, int mask, int dist) {
         if (dist > maximum) maximum = dist;
+        if (maximum == 26) return;
+
+        int used = Integer.bitCount(mask);
+        if (dist + (26 - used) <= maximum) return;
 
         for (int i = 0; i < 4; i++) {
             int nx = x + dx[i];
