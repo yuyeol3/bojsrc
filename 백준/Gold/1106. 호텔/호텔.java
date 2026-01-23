@@ -31,8 +31,8 @@ class Main {
             배열의 크기는 최대 100000
         */
         int[] dp = new int[100005];
-        int result = 100005;
-        for (int i = 0; i < 100001; i++) {
+        int result = 100 * C + 5;
+        for (int i = 0; i < 100 * C + 5; i++) {
             for (int j = 0; j < N; j++) {
                 if (i - adv[j][0] < 0) continue;
                 dp[i] = Math.max(dp[i], dp[i-adv[j][0]] + adv[j][1]);
