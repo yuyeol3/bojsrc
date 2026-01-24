@@ -19,7 +19,7 @@ class Main {
         int T = Integer.parseInt(br.readLine());
         StringBuilder sb = new StringBuilder();
         
-
+        // O(TN^2)
         while (T-- >0) {
             StringTokenizer st = new StringTokenizer(br.readLine());
             int N, M;
@@ -44,7 +44,7 @@ class Main {
 
             while (!dq.isEmpty()) {
                 Pair e = dq.pollFirst();
-                if (priorities[pIdx] >= 1 && pIdx > e.num) {
+                if (pIdx > e.num) {
                     dq.addLast(e);
                     continue;
                 }
