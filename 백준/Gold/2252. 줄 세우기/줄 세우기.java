@@ -12,16 +12,11 @@ class Main {
         M = Integer.parseInt(st.nextToken());
 
         @SuppressWarnings("unchecked")
-        Set<Integer>[] ltGraph = new Set[N+1];
+        ArrayList<Integer>[] graph = new ArrayList[N+1]; // 나가는 방향 그래프
+        int[] indegree = new int[N+1];  // 들어오는 방향 그래프
 
-        @SuppressWarnings("unchecked")
-        Set<Integer>[] gtGraph = new Set[N+1];
-
-        
-        for (int i = 1; i <= N; i++) {
-            ltGraph[i] = new HashSet<>();
-            gtGraph[i] = new HashSet<>();
-        }
+        for (int i = 1; i <= N; i++) 
+            graph[i] = new ArrayList<>();
 
         for (int i = 0; i < M; i++) {
             st = new StringTokenizer(br.readLine());
@@ -30,29 +25,29 @@ class Main {
             b = Integer.parseInt(st.nextToken());
             if (a == b) continue;
 
-            gtGraph[b].add(a); // 더 큰 쪽으로 가는 간선
-            ltGraph[a].add(b); // 더 작은 쪽으로 가는 간선
+            graph[a].add(b);
+            indegree[b]++;
         }
 
 
-        Deque<Integer> ltStack = new ArrayDeque<>();
+        Deque<Integer> queue = new ArrayDeque<>();
 
         for (int i = 1; i <= N; i++) {
-            if (gtGraph[i].size() == 0)
-                ltStack.addLast(i);
+            if (indegree[i] == 0)
+                queue.addLast(i);
         }
 
         // System.out.println(ltStack);
         int[] sorted = new int[N+1];
         int idx = 0;
-        while (!ltStack.isEmpty()) {
-            int s = ltStack.pollFirst();
+        while (!queue.isEmpty()) {
+            int s = queue.pollFirst();
             sorted[idx++] = s;
 
-            for (int adj : ltGraph[s]) {
-                gtGraph[adj].remove(s);
-                if (gtGraph[adj].size() == 0)
-                    ltStack.addFirst(adj);
+            for (int adj : graph[s]) {
+                indegree[adj]--;
+                if (indegree[adj] == 0)
+                    queue.addLast(adj);
             }
         }
 
