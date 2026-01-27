@@ -41,25 +41,18 @@ class Main {
             graph[b].add(new Pair(a, w));
         }
 
-        // for (int i = 1; i <= V; i++)
-        //     System.out.println(i + ": " + graph[i]);
-
         boolean[] visited = new boolean[V+1];
-        long[] dist = new long[V+1];
-        long minWeight = 0;
-        int loopCnt = V-1;
+        int minWeight = 0;
         PriorityQueue<Pair> pq = new PriorityQueue<>((a, b)->Long.compare(a.y, b.y));
         pq.offer(new Pair(1, 0));
         // visited[1] = true;
 
-
-        while (loopCnt>=0) {
+        while (!pq.isEmpty()) {
             // System.out.println(pq + "," + pq.peek().y + " added");
             Pair s = pq.poll();
             if (visited[s.x]) continue;
             visited[s.x] = true;
             minWeight += s.y;
-            loopCnt--;
 
             for (Pair adj : graph[s.x]) {
                 if (visited[adj.x]) continue;
