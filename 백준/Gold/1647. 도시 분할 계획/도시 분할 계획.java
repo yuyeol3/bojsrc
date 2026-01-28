@@ -37,7 +37,7 @@ class Main {
         pq.offer(new Pair(1, 0));
         long mstWeight = 0;
         long maxWeight = 0;
-
+        int count = 0;
         while (!pq.isEmpty()) {
             Pair s = pq.poll();
             if (visited[s.x]) continue;
@@ -45,6 +45,8 @@ class Main {
             if (s.y > maxWeight) maxWeight = s.y;
             visited[s.x] = true;
             
+            if (count++ == N-1) break;
+
             for (Pair adj : graph[s.x]) {
                 if (visited[adj.x]) continue;
                 pq.offer(adj);
