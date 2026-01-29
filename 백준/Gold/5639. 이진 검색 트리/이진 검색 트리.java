@@ -3,50 +3,60 @@ import java.util.*;
 
 class Main {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    static int MAX_NODE = 10005;
     static StringBuilder sb = new StringBuilder();
     static class Node {
-        int left = 0;
-        int right = 0;
+        Node left = null;
+        Node right = null;
+        int num;
+        public Node(int num) {
+            this.num = num;
+        }
     }
 
     public static void main(String[] args) throws IOException {
 
-        Map<Integer, Node> tree = new HashMap<>();
-        Deque<Integer> stk = new ArrayDeque<>();
-
+        Deque<Node> stk = new ArrayDeque<>();
         int root = Integer.parseInt(br.readLine());
-        tree.put(root, new Node());
-        stk.addFirst(root);
+        Node tree = new Node(root);
+        stk.addFirst(tree);
         while (true) {
             String numStr = br.readLine();
             if (numStr == null) break;
             int num = Integer.parseInt(numStr);
-            if (num < stk.peek()) {
-                tree.get(stk.peek()).left = num;
-                tree.put(num, new Node());
-                stk.addFirst(num);
+            if (num < stk.peek().num) {
+                stk.peek().left = new Node(num);
+                stk.addFirst(stk.peek().left);
             }
             else {
-                int parent = stk.pollFirst();
-                while (!stk.isEmpty() && num > stk.peek()) {
+                Node parent = stk.pollFirst();
+                while (!stk.isEmpty() && num > stk.peek().num) {
                     parent = stk.pollFirst();
                 }
-                tree.get(parent).right = num;
-                tree.put(num, new Node());
-                // stk.addFirst(parent);
-                stk.addFirst(num);
+                parent.right = new Node(num);
+                stk.addFirst(parent.right);
             }
         }
-        postOrder(root, tree);
+
+        Deque<Node> stk2 = new ArrayDeque<>();
+        stk2.add(tree);
+        
+        while (!stk2.isEmpty()) {
+            Node s = stk2.peek();
+            if (s.left == null && s.right == null) {
+                sb.append(s.num).append("\n");
+                stk2.pollFirst();
+                continue;
+            }
+
+            if (s.left != null) {
+                stk2.addFirst(s.left);
+                s.left = null;
+            }
+            else if (s.right != null) {
+                stk2.addFirst(s.right);
+                s.right = null;
+            }
+        }
         System.out.print(sb);
-    }
- 
-    static void postOrder(int nodeNum, final Map<Integer, Node> tree) {
-        // if (nodeNum == 0) return;
-        Node node = tree.get(nodeNum);
-        if (node.left != 0) postOrder(node.left, tree);
-        if (node.right != 0) postOrder(node.right, tree);
-        sb.append(nodeNum).append("\n");
     }
 }
