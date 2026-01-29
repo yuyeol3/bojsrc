@@ -3,11 +3,10 @@ import java.util.*;
 
 class Main {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    static int MAX_NODE = 10005;
     static StringBuilder sb = new StringBuilder();
     static class Node {
-        int left = 0;
-        int right = 0;
+        Node left = null;
+        Node right = null;
         int num;
         public Node(int num) {
             this.num = num;
@@ -16,57 +15,48 @@ class Main {
 
     public static void main(String[] args) throws IOException {
 
-        Map<Integer, Node> tree = new HashMap<>();
-        Deque<Integer> stk = new ArrayDeque<>();
-        // int N = 0;
+        Deque<Node> stk = new ArrayDeque<>();
         int root = Integer.parseInt(br.readLine());
-        tree.put(root, new Node(root));
-        stk.addFirst(root);
+        Node tree = new Node(root);
+        stk.addFirst(tree);
         while (true) {
             String numStr = br.readLine();
             if (numStr == null) break;
-            // N++;
             int num = Integer.parseInt(numStr);
-            if (num < stk.peek()) {
-                tree.get(stk.peek()).left = num;
-                tree.put(num, new Node(num));
-                stk.addFirst(num);
+            if (num < stk.peek().num) {
+                stk.peek().left = new Node(num);
+                stk.addFirst(stk.peek().left);
             }
             else {
-                int parent = stk.pollFirst();
-                while (!stk.isEmpty() && num > stk.peek()) {
+                Node parent = stk.pollFirst();
+                while (!stk.isEmpty() && num > stk.peek().num) {
                     parent = stk.pollFirst();
                 }
-                tree.get(parent).right = num;
-                tree.put(num, new Node(num));
-                // stk.addFirst(parent);
-                stk.addFirst(num);
+                parent.right = new Node(num);
+                stk.addFirst(parent.right);
             }
         }
-        // postOrder(root, tree);
 
         Deque<Node> stk2 = new ArrayDeque<>();
-        stk2.add(tree.get(root));
+        stk2.add(tree);
         
         while (!stk2.isEmpty()) {
             Node s = stk2.peek();
-            if (s.left == 0 && s.right == 0) {
+            if (s.left == null && s.right == null) {
                 sb.append(s.num).append("\n");
                 stk2.pollFirst();
                 continue;
             }
 
-            if (s.left != 0) {
-                stk2.addFirst(tree.get(s.left));
-                s.left = 0;
+            if (s.left != null) {
+                stk2.addFirst(s.left);
+                s.left = null;
             }
-            else if (s.right != 0) {
-                stk2.addFirst(tree.get(s.right));
-                s.right = 0;
+            else if (s.right != null) {
+                stk2.addFirst(s.right);
+                s.right = null;
             }
         }
-        
-
         System.out.print(sb);
     }
 }
