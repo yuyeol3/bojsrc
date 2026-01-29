@@ -8,28 +8,23 @@ class Main {
     static class Node {
         int left = 0;
         int right = 0;
-        int num;
-        public Node(int num) {
-            this.num = num;
-        }
     }
 
     public static void main(String[] args) throws IOException {
 
         Map<Integer, Node> tree = new HashMap<>();
         Deque<Integer> stk = new ArrayDeque<>();
-        // int N = 0;
+
         int root = Integer.parseInt(br.readLine());
-        tree.put(root, new Node(root));
+        tree.put(root, new Node());
         stk.addFirst(root);
         while (true) {
             String numStr = br.readLine();
             if (numStr == null) break;
-            // N++;
             int num = Integer.parseInt(numStr);
             if (num < stk.peek()) {
                 tree.get(stk.peek()).left = num;
-                tree.put(num, new Node(num));
+                tree.put(num, new Node());
                 stk.addFirst(num);
             }
             else {
@@ -38,35 +33,20 @@ class Main {
                     parent = stk.pollFirst();
                 }
                 tree.get(parent).right = num;
-                tree.put(num, new Node(num));
+                tree.put(num, new Node());
                 // stk.addFirst(parent);
                 stk.addFirst(num);
             }
         }
-        // postOrder(root, tree);
-
-        Deque<Node> stk2 = new ArrayDeque<>();
-        stk2.add(tree.get(root));
-        
-        while (!stk2.isEmpty()) {
-            Node s = stk2.peek();
-            if (s.left == 0 && s.right == 0) {
-                sb.append(s.num).append("\n");
-                stk2.pollFirst();
-                continue;
-            }
-
-            if (s.left != 0) {
-                stk2.addFirst(tree.get(s.left));
-                s.left = 0;
-            }
-            else if (s.right != 0) {
-                stk2.addFirst(tree.get(s.right));
-                s.right = 0;
-            }
-        }
-        
-
+        postOrder(root, tree);
         System.out.print(sb);
+    }
+ 
+    static void postOrder(int nodeNum, final Map<Integer, Node> tree) {
+        // if (nodeNum == 0) return;
+        Node node = tree.get(nodeNum);
+        if (node.left != 0) postOrder(node.left, tree);
+        if (node.right != 0) postOrder(node.right, tree);
+        sb.append(nodeNum).append("\n");
     }
 }
