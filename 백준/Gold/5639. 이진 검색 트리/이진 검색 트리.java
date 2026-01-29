@@ -51,7 +51,7 @@ class Main {
             if (numStr == null) break;
             addTree(Integer.parseInt(numStr));
         }
-        postOrder(1);
+        postOrder(root);
         System.out.print(sb);
     }
 }
