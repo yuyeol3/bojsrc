@@ -12,26 +12,25 @@ class Main {
         N = Integer.parseInt(st.nextToken());
         S = Integer.parseInt(st.nextToken());
 
-        TreeMap<Integer, Integer> rangeQuery = new TreeMap<>();    
         int[] prefixSum = new int[N+1];
         st = new StringTokenizer(br.readLine());
         for (int i = 1; i <= N; i++) {
             prefixSum[i] = prefixSum[i-1] + Integer.parseInt(st.nextToken());
-            rangeQuery.put(prefixSum[i], i);
         }
 
-        int minLegth = MAX_LENGTH;
-        for (int i = 1; i <= N; i++) {
-            if (prefixSum[i] < S) continue;
-
-            if (prefixSum[i] == S) {
-                minLegth = i;
+        int l = 0;
+        int u = 1;
+        int minLength = MAX_LENGTH;
+        while (l < u && u <= N) {
+            int sectionSum = prefixSum[u]-prefixSum[l];
+            if (sectionSum >= S) {
+                minLength = Math.min(minLength, u-l);
+                l++;
             }
             else {
-                Map.Entry<Integer, Integer> et = rangeQuery.lowerEntry(prefixSum[i]-S+1);
-                minLegth = Math.min(minLegth, et == null ? i : i - et.getValue());
+                u++;
             }
         }
-        System.out.println(minLegth == MAX_LENGTH ? 0 : minLegth);
+        System.out.println(minLength == MAX_LENGTH ? 0 : minLength);
     }
 }
