@@ -1,6 +1,4 @@
 import java.io.*;
-import java.util.*;
-
 
 class Main {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -8,16 +6,10 @@ class Main {
     static class State {
         int idx;
         int cnt;
-        Stack<Integer> st;
 
         public State(int idx, int cnt) {
             this.idx = idx;
             this.cnt = cnt;
-            this.st = new Stack<>();
-        }
-
-        public String toString() {
-            return "<" + idx + "," + cnt + "," + st + ">";
         }
     }
 
@@ -30,6 +22,9 @@ class Main {
         State[] states = new State[s.length()];
         int statesSize = 0;
 
+        int[] st = new int[s.length()];
+        int stSize = 0;
+
         states[statesSize++] = new State(0, 0);
         while (statesSize > 0) {
           
@@ -39,17 +34,16 @@ class Main {
                 break;
             }
 
-
             if (s.charAt(state.idx) == k.charAt(state.cnt)) {
                
-                state.st.push(state.idx);
+                st[stSize++] = state.idx;
+                // state.st.push(state.idx);
                 state.idx++;
                 state.cnt++;
                 
                 if (state.cnt == k.length()) {
-                    while (!state.st.isEmpty()) {
-                        broken[state.st.pop()] = true;
-                    }
+                    for (int i = 0; i < k.length(); i++)
+                        broken[st[--stSize]] = true;
 
                     statesSize--;
                     if (statesSize >= 1)
@@ -63,6 +57,7 @@ class Main {
             else {
                 if (state.cnt == 0) {
                     statesSize = 0;
+                    stSize = 0;
                     states[statesSize++] = new State(state.idx + 1, 0);
                 }
                 else states[statesSize++] = new State(state.idx, 0);
