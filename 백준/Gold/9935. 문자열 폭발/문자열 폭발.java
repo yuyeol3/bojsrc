@@ -19,48 +19,60 @@ class Main {
 
         boolean[] broken = new boolean[s.length() + 1];
         
-        State[] states = new State[s.length()];
-        int statesSize = 0;
+        int[] stateIdx = new int[s.length()];
+        int[] stateCnt = new int[s.length()];
+        int stateTop = 0;
 
         int[] st = new int[s.length()];
-        int stSize = 0;
+        int stTop = 0;
 
-        states[statesSize++] = new State(0, 0);
-        while (statesSize > 0) {
+        stateIdx[stateTop] = stateCnt[stateTop] = 0;
+        stateTop++;
+        while (stateTop > 0) {
           
-            State state = states[statesSize-1];
-            if (state.idx >= s.length()) {
-                statesSize = 0;
+            int sIdx = stateIdx[stateTop-1];
+            int sCnt = stateCnt[stateTop-1];
+            if (sIdx >= s.length()) {
+                stateTop = 0;
                 break;
             }
 
-            if (s.charAt(state.idx) == k.charAt(state.cnt)) {
+            if (s.charAt(sIdx) == k.charAt(sCnt)) {
                
-                st[stSize++] = state.idx;
-                // state.st.push(state.idx);
-                state.idx++;
-                state.cnt++;
+                st[stTop++] = sIdx;
+                sIdx = ++(stateIdx[stateTop-1]);
+                sCnt = ++(stateCnt[stateTop-1]);
                 
-                if (state.cnt == k.length()) {
+                if (sCnt == k.length()) {
                     for (int i = 0; i < k.length(); i++)
-                        broken[st[--stSize]] = true;
+                        broken[st[--stTop]] = true;
 
-                    statesSize--;
-                    if (statesSize >= 1)
-                        states[statesSize-1].idx = state.idx;
+                    stateTop--;
+                    if (stateTop >= 1)
+                        stateIdx[stateTop-1] = sIdx;
 
-                    if (statesSize == 0 && state.idx < s.length()) {
-                        states[statesSize++] = new State(state.idx, 0);
+                    if (stateTop == 0 && sIdx < s.length()) {
+                        stateIdx[stateTop] = sIdx;
+                        stateCnt[stateTop] = 0;
+                        stateTop++;
                     }
                 }
             }
             else {
-                if (state.cnt == 0) {
-                    statesSize = 0;
-                    stSize = 0;
-                    states[statesSize++] = new State(state.idx + 1, 0);
+                if (sCnt == 0) {
+                    stateTop = 0;
+                    stTop = 0;
+                    stateIdx[stateTop] = sIdx + 1;
+                    stateCnt[stateTop] = 0;
+                    stateTop++;
+                    // states[statesSize++] = new State(state.idx + 1, 0);
                 }
-                else states[statesSize++] = new State(state.idx, 0);
+                else {
+                    stateIdx[stateTop] = sIdx;
+                    stateCnt[stateTop] = 0;
+                    stateTop++;
+                    // states[statesSize++] = new State(state.idx, 0);
+                }
             }
         }
 
