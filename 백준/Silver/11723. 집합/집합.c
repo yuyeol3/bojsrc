@@ -3,12 +3,14 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-bool set[30];
+int set = 0;
 
 int main(void) {
     int n;
     scanf("%d", &n);
 
+    int bufSize = 0;
+    bool buf[n + 1];
     char cmd[10];
     int x;
     while (n-->0) {
@@ -16,28 +18,29 @@ int main(void) {
 
         if (!strcmp(cmd, "add")) {
             scanf("%d", &x);
-            set[x] = true;
+            set = (set | (1 << x));
         }
         else if (!strcmp(cmd, "remove")) {
             scanf("%d", &x);
-            set[x] = false;
+            set = (set & ~(1 << x));
         }
         else if (!strcmp(cmd, "check")) {
             scanf("%d", &x);
-            printf("%d\n", set[x]);
+            buf[bufSize++] = (set >> x) & 1;
         }
         else if (!strcmp(cmd, "toggle")) {
             scanf("%d", &x);
-            set[x] = !set[x];
+            set = set ^ (1 << x);
         }
         else if (!strcmp(cmd, "all")) {
-            for (int i = 1; i <= 20; i++) 
-                set[i] = true;
+            set = ~0;
         }
         else if (!strcmp(cmd, "empty")) {
-            for (int i = 1; i <= 20; i++) 
-                set[i] = false;
+            set = 0;
         }
     }
+
+    for (int i = 0; i < bufSize; i++)
+        printf("%d\n", buf[i]);
     return 0;
 }
