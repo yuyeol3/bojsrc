@@ -36,7 +36,7 @@ class Main {
 
         int m = Integer.parseInt(br.readLine());
         StringBuilder sb = new StringBuilder();
-        while (m-->0) {
+        for (int i = 0; i < m; i++) {
             st = new StringTokenizer(br.readLine());
             int s, e;
 
