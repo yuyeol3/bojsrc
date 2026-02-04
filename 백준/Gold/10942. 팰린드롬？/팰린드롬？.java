@@ -3,8 +3,8 @@ import java.io.*;
 
 class Main {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    static boolean[][] dp;
-    static int[] nums;
+    static boolean[][] dp = new boolean[2001][2001];
+    static int[] nums = new int[2001];
 
     public static void main(String[] args) throws IOException {
         /*
@@ -13,8 +13,6 @@ class Main {
         */
 
         int n = Integer.parseInt(br.readLine());
-        nums = new int[n+1];
-        dp = new boolean[n+1][n+1];
         StringTokenizer st = new StringTokenizer(br.readLine());
         for (int i = 1; i <= n; i++)
             nums[i] = Integer.parseInt(st.nextToken());
@@ -28,9 +26,10 @@ class Main {
         for (int i = 1; i <= n; i++) 
             dp[i][i] = true;
 
-        for (int i = n; i >= 1; i--) {
-            for (int j = i+1; j <= n; j++) {
-                dp[i][j] = (i+1 == j || dp[i+1][j-1]) && (nums[i] == nums[j]);
+        for (int i = n-1; i >= 1; i--) {
+            dp[i][i+1] = (nums[i] == nums[i+1]);
+            for (int j = i+2; j <= n; j++) {
+                dp[i][j] = dp[i+1][j-1] && (nums[i] == nums[j]);
             }
         }
 
