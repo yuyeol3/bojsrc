@@ -25,11 +25,12 @@ class Main {
         // x    x  x   x   3,3 3,4 3,5
         //                 x   x   4,6
         //                         5,5
+        for (int i = 1; i <= n; i++) 
+            dp[i][i] = true;
+
         for (int i = n; i >= 1; i--) {
-            for (int j = i; j <= n; j++) {
-                if (i == j) dp[i][j] = true;
-                else if (i+1 == j) dp[i][j] = nums[i] == nums[j];
-                else dp[i][j] = dp[i+1][j-1] && (nums[i] == nums[j]);
+            for (int j = i+1; j <= n; j++) {
+                dp[i][j] = (i+1 == j || dp[i+1][j-1]) && (nums[i] == nums[j]);
             }
         }
 
