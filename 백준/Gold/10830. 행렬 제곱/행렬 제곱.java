@@ -4,7 +4,7 @@ import java.io.*;
 class Main {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-    static long[][] mat = new long[5][5];
+    static long[][] mat;
     public static void main(String[] args) throws IOException {
         StringTokenizer st = new StringTokenizer(br.readLine().stripTrailing());
         int N;
@@ -12,6 +12,8 @@ class Main {
 
         N = Integer.parseInt(st.nextToken());
         B = Long.parseLong(st.nextToken());
+
+        mat = new long[N][N];
 
         for (int i = 0; i < N; i++) {
             st = new StringTokenizer(br.readLine().stripTrailing());
