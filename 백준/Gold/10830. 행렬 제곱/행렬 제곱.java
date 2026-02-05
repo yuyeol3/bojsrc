@@ -4,25 +4,25 @@ import java.io.*;
 class Main {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-    static long[][] mat;
+    static int[][] mat;
     public static void main(String[] args) throws IOException {
-        StringTokenizer st = new StringTokenizer(br.readLine().stripTrailing());
+        StringTokenizer st = new StringTokenizer(br.readLine());
         int N;
         long B;
 
         N = Integer.parseInt(st.nextToken());
         B = Long.parseLong(st.nextToken());
 
-        mat = new long[N][N];
+        mat = new int[N][N];
 
         for (int i = 0; i < N; i++) {
-            st = new StringTokenizer(br.readLine().stripTrailing());
+            st = new StringTokenizer(br.readLine());
             for (int j = 0; j < N; j++) {
                 mat[i][j] = Integer.parseInt(st.nextToken());
             }
         }
 
-        long[][] res = matPow(B);
+        int[][] res = matPow(B);
         StringBuilder sb = new StringBuilder();
 
         for (int i = 0; i < N; i++) {
@@ -34,9 +34,9 @@ class Main {
         System.out.print(sb);
     }
 
-    static long[][] matMul(final long[][] a, final long[][] b) {
+    static int[][] matMul(final int[][] a, final int[][] b) {
         int n = a.length;
-        long[][] result = new long[n][n];
+        int[][] result = new int[n][n];
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 for (int k = 0; k < n; k++)
@@ -47,12 +47,12 @@ class Main {
         return result;
     }
 
-    static long[][] matPow(long n) {
+    static int[][] matPow(long n) {
         if (n == 1)
             return mat;
         
         if (n % 2 == 0) {
-            long[][] half = matPow(n / 2);
+            int[][] half = matPow(n / 2);
             return matMul(half, half);
         }
 
