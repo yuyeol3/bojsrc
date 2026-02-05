@@ -18,7 +18,7 @@ class Main {
         for (int i = 0; i < N; i++) {
             st = new StringTokenizer(br.readLine());
             for (int j = 0; j < N; j++) {
-                mat[i][j] = Integer.parseInt(st.nextToken());
+                mat[i][j] = Integer.parseInt(st.nextToken()) % 1000;
             }
         }
 
@@ -27,7 +27,7 @@ class Main {
 
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                sb.append(res[i][j] % 1000).append(" ");
+                sb.append(res[i][j]).append(" ");
             }
             sb.append("\n");
         }
