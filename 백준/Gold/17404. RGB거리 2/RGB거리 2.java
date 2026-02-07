@@ -15,7 +15,6 @@ class Main {
 
         StringTokenizer st;
         for (int i = 1; i <= N; i++) {
-            Arrays.fill(dp[i][0], INF);
             st = new StringTokenizer(br.readLine());
             for (int j = 0; j < 3; j++) {
                 Arrays.fill(dp[i][j], INF);
