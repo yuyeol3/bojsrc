@@ -4,12 +4,14 @@ import java.io.*;
 class Main {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-    static int[] roots;
+    static int[] parent;
+    static int[] height;
 
     static void init(int n) {
-        roots = new int[n+1];
+        parent = new int[n];
+        height = new int[n];
         for (int i = 0; i < n; i++) {
-            roots[i] = i;
+            parent[i] = i;
         }
     }
 
@@ -17,13 +19,20 @@ class Main {
         int rootA = find(a);
         int rootB = find(b);
 
-        roots[rootB] = rootA;
+        if (height[rootA] < height[rootB]) {
+            int tmp = rootA;
+            rootA = rootB;
+            rootB = tmp;
+        }
+
+        height[rootA] += rootA == rootB ? 1 : 0;
+        parent[rootB] = rootA;
     }
 
     static int find(int x) {
-        if (x == roots[x]) return x;
-        roots[x] = find(roots[x]);
-        return roots[x];
+        if (x == parent[x]) return x;
+        parent[x] = find(parent[x]);
+        return parent[x];
     }
 
     public static void main(String[] args) throws IOException {
