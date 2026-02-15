@@ -1,31 +1,47 @@
+import java.util.*;
 import java.io.*;
-import java.util.Arrays;
 
 class Main {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     public static void main(String[] args) throws IOException {
         int n = Integer.parseInt(br.readLine());
 
-        int[] dp = new int[n+1];
+        boolean[] isSquare = new boolean[n+1];
         int[] squares = new int[n+1];
         int sidx = 0;
-
-        Arrays.fill(dp, 5);
         
         // O(\sqrt n)
         for (int i = 1; i * i <= n; i++) {
-            dp[i*i] = 1;
+            isSquare[i*i] = true;
             squares[sidx++] = i*i;
             // System.out.println(i*i);
         }
 
-        for (int i = 2; i <= n; i++) {
-            for (int j = 0; j < sidx && squares[j] <= i; j++) {
-                dp[i] = Math.min(dp[i], 1 + dp[i - squares[j]]);
+        if (isSquare[n]) {
+            System.out.println(1);
+            return;    
+        }
+
+
+        // O(\log n)
+        int num = n;
+        while (num % 4 == 0) {
+            num /= 4;
+        }
+        if ((num-7) % 8 == 0) {
+            System.out.println(4);
+            return;
+        }
+        
+        // O(\sqrt n)
+        for (int i = sidx-1; i >= 0; i--) {
+            if (isSquare[n-squares[i]]) {
+                System.out.println(2);
+                return;
             }
         }
 
-        System.out.println(dp[n]);
+        System.out.println(3);
 
     }
 
