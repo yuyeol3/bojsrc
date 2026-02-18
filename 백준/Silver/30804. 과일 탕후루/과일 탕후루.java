@@ -30,23 +30,26 @@ class Main {
         int[] used = new int[10];
         used[fruits[0]] = 1;
         int maximum = 0;
+        int distinct = 1;
         while (e < N && s <= e) {
             
             // System.out.println(s + "," + e + "," + Arrays.toString(used));
 
-            int usedFruits = 0;
-            for (int i = 1; i <= 9; i++) {
-                usedFruits += (used[i] > 0) ? 1 : 0;
-            }
+     
 
-            if (usedFruits > 2) {
+            if (distinct > 2) {
                 used[fruits[s]]--;
+                if (used[fruits[s]] == 0) distinct--;
                 s++;
             }
             else {
                 maximum = Math.max(maximum, e-s+1);
                 e++;
-                if (e < N) used[fruits[e]]++;
+                if (e < N) {
+                    used[fruits[e]]++;
+                    if (used[fruits[e]] == 1) distinct++;
+                }
+
             }
         }
 
