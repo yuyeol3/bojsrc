@@ -5,17 +5,6 @@ class Main {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
     public static void main(String[] args) throws IOException {
-        /*
-        5 1 1 2 1
-        1 2 2 3 3
-
-        1 2 3 4 5 6 7 8 9
-        1 2 3 4 5 6 7 8 9
-
-        5 1 1 2 1 3 4 1 1
-        1 2 2 3 3 4 5 5 5
-        5 4 4 4 3 3 2 1 1
-        */       
 
         int N = Integer.parseInt(br.readLine());
         int[] fruits = new int[N];
@@ -32,10 +21,6 @@ class Main {
         int maximum = 0;
         int distinct = 1;
         while (e < N && s <= e) {
-            
-            // System.out.println(s + "," + e + "," + Arrays.toString(used));
-
-     
 
             if (distinct > 2) {
                 used[fruits[s]]--;
@@ -43,7 +28,7 @@ class Main {
                 s++;
             }
             else {
-                maximum = Math.max(maximum, e-s+1);
+                if (e-s+1 > maximum) maximum = e-s+1;
                 e++;
                 if (e < N) {
                     used[fruits[e]]++;
