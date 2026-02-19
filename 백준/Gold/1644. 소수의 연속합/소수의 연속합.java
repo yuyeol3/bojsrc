@@ -19,7 +19,7 @@ class Main {
         for (int i = 2; i <= N; i++) {
             if (!isPrime[i]) continue;
             primes[pnum++] = i;
-            for (int j = 2*i; j <= N; j += i) {
+            for (int j = i*i; j > 0 && j <= N; j += i) {
                 isPrime[j] = false;
             }
         }
@@ -28,6 +28,8 @@ class Main {
         s = e = 0;
 
         int sum = primes[0];
+
+
         while (e < pnum) {
             if (sum == N) cases++;
 
