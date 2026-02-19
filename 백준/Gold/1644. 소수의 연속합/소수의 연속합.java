@@ -12,13 +12,14 @@ class Main {
         }
 
         boolean[] isPrime = new boolean[N+1];
-        List<Integer> primes = new ArrayList<>();
+        int[] primes = new int[N+1];
+        int pnum = 0;
         Arrays.fill(isPrime, true);
 
         for (int i = 2; i <= N; i++) {
             if (!isPrime[i]) continue;
-            primes.add(i);
-            for (int j = i; j <= N; j += i) {
+            primes[pnum++] = i;
+            for (int j = 2*i; j <= N; j += i) {
                 isPrime[j] = false;
             }
         }
@@ -26,16 +27,16 @@ class Main {
         int s, e;
         s = e = 0;
 
-        int sum = primes.get(0);
-        while (e < primes.size()) {
-            cases += sum == N ? 1 : 0;
+        int sum = primes[0];
+        while (e < pnum) {
+            if (sum == N) cases++;
 
             if (sum >= N) {
-                sum -= primes.get(s++);
+                sum -= primes[s++];
             }
             else {
-                if (e + 1 == primes.size()) break;
-                sum += primes.get(++e);
+                if (e + 1 == pnum) break;
+                sum += primes[++e];
             }
         }
 
