@@ -19,8 +19,8 @@ class Main {
         for (int i = 2; i <= N; i++) {
             if (!isPrime[i]) continue;
             primes[pnum++] = i;
-            for (int j = i*i; j > 0 && j <= N; j += i) {
-                isPrime[j] = false;
+            for (long j = (long) i*i; j <= N; j += i) {
+                isPrime[(int)j] = false;
             }
         }
         int cases = 0;
