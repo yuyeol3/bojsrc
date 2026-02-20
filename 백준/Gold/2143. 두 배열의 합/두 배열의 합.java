@@ -29,8 +29,7 @@ class Main {
         for (int i = 1; i <= N; i++) {
             for (int j = i; j <= N; j++) {
                 int sum = prefixA[j] - prefixA[i-1];
-                possibleA.computeIfPresent(sum, (k, v)-> v+1);
-                possibleA.computeIfAbsent(sum, k->1);
+                possibleA.put(sum, possibleA.getOrDefault(sum, 0)+1);
             }
         }
         // System.out.println(possibleA);
