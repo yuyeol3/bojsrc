@@ -10,16 +10,17 @@ class Main {
         int M = Integer.parseInt(st.nextToken());
         int B = Integer.parseInt(st.nextToken());
 
-        int[][] world = new int[N][M];
+        int[] heightFreq = new int[257];
         int minHeight = 257;
         int maxHeight = -1;
 
         for (int i = 0; i < N; i++) {
             st = new StringTokenizer(br.readLine());
             for (int j = 0; j < M; j++) {
-                world[i][j] = Integer.parseInt(st.nextToken());
-                if (world[i][j] > maxHeight) maxHeight = world[i][j];
-                if (world[i][j] < minHeight) minHeight = world[i][j];
+                int h = Integer.parseInt(st.nextToken());
+                heightFreq[h]++;
+                if (h > maxHeight) maxHeight = h;
+                if (h < minHeight) minHeight = h;
             }
         }
 
@@ -33,16 +34,16 @@ class Main {
         for (int h = maxHeight; h >= minHeight; h--) {
             int elapsed = 0;
             int requiredBlock = 0;
-            for (int i = 0; i < N; i++) {
-                for (int j = 0; j < M; j++) {
-                    if (world[i][j] > h) {
-                        elapsed += 2 * (world[i][j] - h);
-                        requiredBlock -= world[i][j] - h;
-                    }
-                    else if (world[i][j] < h) {
-                        elapsed += h - world[i][j];
-                        requiredBlock += h - world[i][j];
-                    }
+
+            for (int i = minHeight; i <= maxHeight; i++) {
+                if (heightFreq[i] == 0) continue;
+                if (i > h) {
+                    elapsed += 2 * heightFreq[i] * (i - h);
+                    requiredBlock -= heightFreq[i] * (i - h);
+                }
+                else if (i < h) {
+                    elapsed += heightFreq[i] * (h - i);
+                    requiredBlock += heightFreq[i] * (h - i);
                 }
             }
 
