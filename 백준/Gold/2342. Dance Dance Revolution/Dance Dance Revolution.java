@@ -74,11 +74,10 @@ class Main {
     static int calcCost(int prev, int cur) {
         if (prev == 0) return 2;
         int diff = Math.abs(cur-prev);
-        return switch(diff) {
-            case 0 -> 1;
-            case 2 -> 4;
-            default -> 3;
-        };
+
+        if (diff == 0) return 1;
+        if (diff == 2) return 4;        
+        return 3;
     }
 
 }
