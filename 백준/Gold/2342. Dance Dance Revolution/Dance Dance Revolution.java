@@ -14,23 +14,26 @@ class Main {
             commands.add(num);
 
         int n = commands.size();
-        int[][][] dp = new int[n+1][5][5];
+        int[][] prev = new int[5][5];
+        int[][] next = new int[5][5];
+        int[][] tmp;
 
 
-        for (int i = 0; i <= n; i++) {
+
+        for (int i = 0; i <= 4; i++) {
             for (int j = 0; j <= 4; j++) {
-                for (int k = 0; k <= 4; k++) {
-                    dp[i][j][k] = INF;
-                }
+                prev[i][j] = INF;
+                next[i][j] = INF;
             }
         }
-
-        dp[0][0][0] = 0;
+    
+        prev[0][0] = 0;
 
         // j 왼발 k 오른발
         // 왼발이 commands[i]로 이동하거나 오른발이 commands[i]로 이동해야 함
         // dp[i][j][commands[i]] = min(dp[i-1][j][?] + cost)
         // dp[i][commands[i]][k] = min(dp[i-1][?][k] + cost)
+        // O(16N)
         for (int i = 1; i <= n; i++) {
             for (int j = 0; j <= 4; j++) {
                 for (int k = 0; k <= 4; k++) {
@@ -40,38 +43,42 @@ class Main {
                     // k -> commands[i] 로 가는 비용
                     int cost = calcCost(k, command);
 
-                    dp[i][j][command] = 
-                        Math.min(dp[i][j][command], dp[i-1][j][k] + cost);
+                    next[j][command] = 
+                        Math.min(next[j][command], prev[j][k] + cost);
 
 
-                    dp[i][command][j] =
-                        Math.min(dp[i][command][j], dp[i-1][k][j] + cost);
-                }
+                    next[command][j] =
+                        Math.min(next[command][j], prev[k][j] + cost);
+                }    
+            }
+
+            tmp = prev;
+            prev = next;
+            next = tmp;
+
+            for (int j = 0; j <= 4; j++) {
+                Arrays.fill(next[j], INF);
             }
         }
 
         int minimum = INF;
         for (int i = 0; i <= 4; i++)  {
-            minimum = Math.min(minimum, dp[n][i][commands.get(n-1)]);
-            minimum = Math.min(minimum, dp[n][commands.get(n-1)][i]);
+            minimum = Math.min(minimum, prev[i][commands.get(n-1)]);
+            minimum = Math.min(minimum, prev[commands.get(n-1)][i]);
         }
 
         System.out.println(minimum);
 
     }
 
-    static final int[] dir = {1,2,3,4};
     static int calcCost(int prev, int cur) {
         if (prev == 0) return 2;
-        if (dir[(4 + (prev-1) - 1) % 4] == cur ||
-            dir[(prev)%4] == cur
-        ) return 3;
-
-        if (dir[(4 + (prev-1) - 2) % 4] == cur ||
-            dir[((prev-1)+2)%4] == cur
-           ) return 4;
-
-        return 1;
+        int diff = Math.abs(cur-prev);
+        return switch(diff) {
+            case 0 -> 1;
+            case 2 -> 4;
+            default -> 3;
+        };
     }
 
 }
