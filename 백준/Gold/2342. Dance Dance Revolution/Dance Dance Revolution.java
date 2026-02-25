@@ -43,12 +43,14 @@ class Main {
                     // k -> commands[i] 로 가는 비용
                     int cost = calcCost(k, command);
 
-                    next[j][command] = 
-                        Math.min(next[j][command], prev[j][k] + cost);
+                    if (prev[j][k] != INF)
+                        next[j][command] = 
+                            Math.min(next[j][command], prev[j][k] + cost);
 
 
-                    next[command][j] =
-                        Math.min(next[command][j], prev[k][j] + cost);
+                    if (prev[k][j] != INF)
+                        next[command][j] =
+                            Math.min(next[command][j], prev[k][j] + cost);
                 }    
             }
 
