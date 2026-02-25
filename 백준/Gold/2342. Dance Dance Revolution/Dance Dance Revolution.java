@@ -31,6 +31,7 @@ class Main {
         // 왼발이 commands[i]로 이동하거나 오른발이 commands[i]로 이동해야 함
         // dp[i][j][commands[i]] = min(dp[i-1][j][?] + cost)
         // dp[i][commands[i]][k] = min(dp[i-1][?][k] + cost)
+        // O(16N)
         for (int i = 1; i <= n; i++) {
             for (int j = 0; j <= 4; j++) {
                 for (int k = 0; k <= 4; k++) {
@@ -46,7 +47,7 @@ class Main {
 
                     dp[i][command][j] =
                         Math.min(dp[i][command][j], dp[i-1][k][j] + cost);
-                }
+                }    
             }
         }
 
@@ -60,18 +61,14 @@ class Main {
 
     }
 
-    static final int[] dir = {1,2,3,4};
     static int calcCost(int prev, int cur) {
         if (prev == 0) return 2;
-        if (dir[(4 + (prev-1) - 1) % 4] == cur ||
-            dir[(prev)%4] == cur
-        ) return 3;
-
-        if (dir[(4 + (prev-1) - 2) % 4] == cur ||
-            dir[((prev-1)+2)%4] == cur
-           ) return 4;
-
-        return 1;
+        int diff = Math.abs(cur-prev);
+        return switch(diff) {
+            case 0 -> 1;
+            case 2 -> 4;
+            default -> 3;
+        };
     }
 
 }
