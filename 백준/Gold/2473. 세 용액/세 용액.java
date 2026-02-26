@@ -16,20 +16,11 @@ class Main {
 
         long[] candidates = new long[3];
         long dist = 1000000000L * 5000 + 5;
-        for (int i = 0; i < N; i++) {
-            int s = (0 == i ? 1 : 0);
-            int e = (N - 1 == i ? N-2: N-1);
+        for (int i = 0; i < N-2; i++) {
+            int s = i+1;
+            int e = N-1;
             long sum = sols[s] + sols[e] + sols[i];
             while (s < e) {
-                if (e == i) {
-                    e--;
-                    continue;
-                }
-
-                if (s == i) {
-                    s++;
-                    continue;
-                }
                 sum = sols[s] + sols[e] + sols[i];
                 if (dist > Math.abs(sum)) {
                     candidates[0] = sols[i];
@@ -48,8 +39,6 @@ class Main {
                 }
             }
         }
-
-        Arrays.sort(candidates);
         System.out.println(candidates[0] + " " + candidates[1] + " " + candidates[2]);
     }
 }
