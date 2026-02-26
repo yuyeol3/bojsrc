@@ -22,12 +22,15 @@ class Main {
             long sum = sols[s] + sols[e] + sols[i];
             while (s < e) {
                 sum = sols[s] + sols[e] + sols[i];
+
+                // System.out.println("i,s,e=" + i + "," + s + "," + e);
                 if (dist > Math.abs(sum)) {
                     candidates[0] = sols[i];
                     candidates[1] = sols[s];
                     candidates[2] = sols[e];
                     dist = Math.abs(sum);
                 }
+                if (dist == 0) break;
                 if (sum > 0) {
                     e--;
                 }
@@ -37,6 +40,7 @@ class Main {
                 else {
                     break;
                 }
+                if (dist == 0) break;
             }
         }
         System.out.println(candidates[0] + " " + candidates[1] + " " + candidates[2]);
