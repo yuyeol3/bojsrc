@@ -24,11 +24,11 @@ class Main {
             for (int j = 0; j < L; j++) 
                 nums[j] = Integer.parseInt(st.nextToken());
 
-            for (int j = 0; j < L-1; j++) {
+            for (int j = 0; j < L; j++) {
                 indegree[nums[j]] += j == 0 ? 0 : 1;
-                graph[nums[j]].add(nums[j+1]);
+                if (j < L-1)
+                    graph[nums[j]].add(nums[j+1]);
             }
-            indegree[nums[L-1]] += 1;
         }
 
         Deque<Integer> q = new ArrayDeque<>();
@@ -59,7 +59,7 @@ class Main {
             for (int i = 0; i < N; i++) {
                 sb.append(sorted.get(i)).append("\n");
             }
-            System.out.println(sb);
+            System.out.print(sb);
         }
 
     }
