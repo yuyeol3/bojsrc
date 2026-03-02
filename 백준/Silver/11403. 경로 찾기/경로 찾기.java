@@ -15,23 +15,13 @@ class Main {
             }
         }
 
-        int[][] dist = new int[N][N];
-        for (int i = 0; i < N; i++)
-            Arrays.fill(dist[i], INF);
-
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < N; j++) {
-                if (adj[i][j] == 1) dist[i][j] = 1;
-            }
-        }
-        
 
 
         for (int k = 0; k < N; k++) {
             for (int i = 0; i < N; i++) {
                 for (int j = 0; j < N; j++) {
-                    if (dist[i][j] > dist[i][k] + dist[k][j]) {
-                        dist[i][j] = dist[i][k] + dist[k][j];
+                    if (adj[i][k] == 1 && adj[k][j] == 1) {
+                        adj[i][j] = 1;
                     }
                 }
             }
@@ -40,7 +30,7 @@ class Main {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                sb.append(dist[i][j] < INF ? 1 : 0).append(" ");
+                sb.append(adj[i][j]).append(" ");
             }
             sb.append("\n");
         }
