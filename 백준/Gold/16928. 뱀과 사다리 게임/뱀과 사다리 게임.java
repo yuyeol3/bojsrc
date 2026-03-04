@@ -36,8 +36,8 @@ class Main {
         while (!q.isEmpty()) {
             int s = q.pollFirst();
             // System.out.println("id="+s);
-            // if (id == 100)
-            //     break;
+            if (s == 100)
+                break;
 
             for (int i = 1; i <= 6; i++) {
                 int nid = s+i;
