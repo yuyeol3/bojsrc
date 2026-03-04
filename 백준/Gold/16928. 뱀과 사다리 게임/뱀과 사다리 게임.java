@@ -28,7 +28,7 @@ class Main {
         }
 
         int[] dist = new int[101];
-        Arrays.fill(dist, 102);
+        Arrays.fill(dist, -1);
 
         Deque<Integer> q = new ArrayDeque<>();
         q.offerLast(1);
@@ -38,29 +38,21 @@ class Main {
             // System.out.println("id="+s);
             // if (id == 100)
             //     break;
-            if (snakes[s] != 0) {
-                if (dist[snakes[s]] <= dist[s]) continue;
-                dist[snakes[s]] = dist[s];
-                q.offerLast(snakes[s]);
-                continue;
-            }
-            else if (ladders[s] != 0) {
-                if (dist[ladders[s]] <= dist[s]) continue;
-                dist[ladders[s]] = dist[s];
-                q.offerLast(ladders[s]);
-                continue;
-            }
-
 
             for (int i = 1; i <= 6; i++) {
                 int nid = s+i;
                 int ndist = dist[s] + 1;
 
-                // System.out.println("id,nx,ny="+ id + "," + nx + "," + ny);
-
                 if (nid > 100) continue;
-                if (dist[nid] <= ndist) continue;
-                
+
+                if (snakes[nid] != 0) {
+                    nid = snakes[nid];
+                }
+                else if (ladders[nid] != 0) {
+                    nid = ladders[nid];
+                }
+
+                if (dist[nid] != -1) continue;
                 dist[nid] = ndist;
                 q.offerLast(nid);
             }
