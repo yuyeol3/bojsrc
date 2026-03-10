@@ -13,16 +13,22 @@ class Main {
         for (int i = 0; i < n; i++) {
             st = new StringTokenizer(br.readLine());
             int taskNum = Integer.parseInt(st.nextToken());
+            int[] taskTime = new int[taskNum];
+
+            
+            for (int j = 0; j < taskNum; j++) {
+                taskTime[j] = Integer.parseInt(st.nextToken());
+            }
+
             int totTime = 0;
             int maximum = 0;
             int cnt = 0;
             boolean used = false;
             for (; cnt < taskNum; cnt++) {
-                int taskTime = Integer.parseInt(st.nextToken());
-                if (taskTime > maximum) 
-                    maximum = taskTime;
+                if (taskTime[cnt] > maximum) 
+                    maximum = taskTime[cnt];
 
-                totTime += taskTime;
+                totTime += taskTime[cnt];
                 if (totTime > t && tz < maximum && !used) {
                     totTime -= (maximum - tz);
                     used = true;
