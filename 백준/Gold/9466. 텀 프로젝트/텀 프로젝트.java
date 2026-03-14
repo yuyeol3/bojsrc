@@ -3,25 +3,6 @@ import java.io.*;
 
 class Main {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    static int[] parent = new int[100001];
-
-    static void init(int n) {
-        for (int i = 1; i <= n; i++)
-            parent[i] = i;
-    }
-
-    static int find(int x) {
-        if (parent[x] == x) return x;
-        parent[x] = find(parent[x]);
-        return parent[x];
-    }
-
-    static void union(int a, int b) {
-        int rootA = find(a);
-        int rootB = find(b);
-
-        parent[rootB] = rootA;
-    }
 
     public static void main(String[] args) throws IOException {
         int T = Integer.parseInt(br.readLine());
@@ -31,31 +12,31 @@ class Main {
             StringTokenizer st = new StringTokenizer(br.readLine());
 
             int[] links = new int[N+1];
+            int[] indegree = new int[N+1];
             for (int i = 1; i <= N; i++) {
                 links[i] = Integer.parseInt(st.nextToken());
+                indegree[links[i]]++;
             }
 
-            int[] groups = new int[N];
-            int groupCnt = 0;
-
-            init(N);
+            Deque<Integer> q = new ArrayDeque<>();
+            int noGroup = 0;
             for (int i = 1; i <= N; i++) {
-                if (find(links[i]) != find(i))
-                    union(links[i], i);
-                else
-                    groups[groupCnt++] = links[i];
-            }
-
-            int noGroup = N - groupCnt;
-            for (int i = 0; i < groupCnt; i++) {
-                int sp = groups[i];   // 6
-                int p = links[sp];    // 4
-                while (p != sp) {
-                    p = links[p];
-                    noGroup--;
+                if (indegree[i] == 0) {
+                    q.offerLast(i);
+                    noGroup++;
                 }
             }
-            sb.append(noGroup).append("\n");   
+
+            while (!q.isEmpty()) {
+                int s = q.pollFirst();
+
+                if (--indegree[links[s]] == 0) {
+                    q.offerLast(links[s]);
+                    noGroup++;
+                }
+            }
+            sb.append(noGroup).append("\n");
+
         }
         System.out.print(sb);
     }
