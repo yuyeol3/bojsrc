@@ -57,17 +57,18 @@ class Main {
                     dicePos[4] = top;
                     break;
                 case 2:
-                    dicePos[1] = dicePos[2];
-                    dicePos[2] = dicePos[6];
-                    dicePos[6] = dicePos[5];
-                    dicePos[5] = top;
-                    break;
-                case 3:
                     dicePos[1] = dicePos[5];
                     dicePos[5] = dicePos[6];
                     dicePos[6] = dicePos[2];
                     dicePos[2] = top;
                     break;
+                case 3:
+                    dicePos[1] = dicePos[2];
+                    dicePos[2] = dicePos[6];
+                    dicePos[6] = dicePos[5];
+                    dicePos[5] = top;
+                    break;
+
                 default:
                     break;
             }
