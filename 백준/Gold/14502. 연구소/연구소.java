@@ -7,15 +7,44 @@ class Main {
     static int[] dx = {1, 0, -1, 0};
     static int[] dy = {0, 1, 0, -1};
 
+    static int[] chosen = new int[3];
+    static int[][] maps;
+    static List<int[]> viruses;
+    static int N, M;
+    static int blanks;
+    static int maximum = 0;
+
+    static void comb(int prev, int step) {
+        if (step == 3) {
+            int ax = chosen[0] / M;
+            int ay = chosen[0] % M;
+
+            int bx = chosen[1] / M;
+            int by = chosen[1] % M;
+
+            int cx = chosen[2] / M;
+            int cy = chosen[2] % M;
+
+            int result = bfs(maps, viruses, blanks, ax, ay, bx, by, cx, cy);
+            if (maximum < result) maximum = result;
+            return;
+        }
+
+        for (int i = prev + 1; i < N * M; i++) {
+            if (maps[i/M][i%M] != 0) continue;
+            chosen[step] = i;
+            comb(i, step + 1);
+        }
+    }
 
     public static void main(String[] args) throws IOException {
         StringTokenizer st = new StringTokenizer(br.readLine());
-        int N = Integer.parseInt(st.nextToken());
-        int M = Integer.parseInt(st.nextToken());
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
 
-        int[][] maps = new int[N][M];
-        List<int[]> viruses = new ArrayList<>();
-        int blanks = 0;
+        maps = new int[N][M];
+        viruses = new ArrayList<>();
+        blanks = 0;
         for (int i = 0; i < N; i++) {
             st = new StringTokenizer(br.readLine());
             for (int j = 0; j < M; j++) {
@@ -34,30 +63,7 @@ class Main {
         2 3
         4 5 -> 4 (2, 0)
         */
-        int maximum = 0;
-        for (int i = 0; i < N*M; i++) {
-            int ax = i / M;
-            int ay = i % M;
-            if (maps[ax][ay] != 0) continue;
-            for (int j = i+1; j < N*M; j++) {
-                int bx = j / M;
-                int by = j % M;
-                if (maps[bx][by] != 0) continue;
-
-                for (int k = j+1; k < N*M; k++) {
-                    int cx = k / M;
-                    int cy = k % M;
-                    if (maps[cx][cy] != 0) continue;
-                    // System.out.println("ax,ay,bx,by,cx,cy="+ax+","+ay+","+bx+","+by+","+cx+","+cy);
-
-                    int result 
-                        = bfs(maps, viruses, blanks, ax, ay, bx, by, cx, cy);
-
-                    if (maximum < result) maximum = result;
-
-                }
-            }
-        }
+        comb(-1, 0);
         System.out.println(maximum);
     }
 
