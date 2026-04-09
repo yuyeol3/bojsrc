@@ -24,23 +24,34 @@ class Main {
             int dir = Integer.parseInt(st.nextToken());
 
             int prevRot = dir;
-            ptrs[wheelNum] = rotate(ptrs[wheelNum], dir);
+            int[] rotated = new int[4];
+            for (int i = 0; i < 4; i++)
+                rotated[i] = ptrs[i];
+
+            rotated[wheelNum] = rotate(ptrs[wheelNum], dir);
+
+
             for (int i = wheelNum + 1; i < 4; i++) {
-                if (wheels[i][rotate(ptrs[i], 4)] == wheels[i-1][rotate(ptrs[i-1], -prevRot)]) {
+                if (wheels[i][rotate(ptrs[i], 4)] == wheels[i-1][ptrs[i-1]]) {
+                    rotated[i] = ptrs[i];
                     break;
                 }
-                ptrs[i] = rotate(ptrs[i], -prevRot);
+                rotated[i] = rotate(ptrs[i], -prevRot);
                 prevRot = -prevRot;
             }
 
             prevRot = dir;
             for (int i = wheelNum - 1; i >= 0; i--) {
-                if (wheels[i][ptrs[i]] == wheels[i+1][rotate(ptrs[i+1], 4-prevRot)]) {
+                if (wheels[i][ptrs[i]] == wheels[i+1][rotate(ptrs[i+1], 4)]) {
+                    rotated[i] = ptrs[i];
                     break;
                 }
-                ptrs[i] = rotate(ptrs[i], -prevRot);
+                rotated[i] = rotate(ptrs[i], -prevRot);
                 prevRot = -prevRot;
             }
+
+            for (int i = 0; i < 4; i++)
+                ptrs[i] = rotated[i];
 
         }
 
