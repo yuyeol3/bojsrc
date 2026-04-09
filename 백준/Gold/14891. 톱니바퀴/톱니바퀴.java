@@ -33,7 +33,6 @@ class Main {
 
             for (int i = wheelNum + 1; i < 4; i++) {
                 if (wheels[i][rotate(ptrs[i], 4)] == wheels[i-1][ptrs[i-1]]) {
-                    rotated[i] = ptrs[i];
                     break;
                 }
                 rotated[i] = rotate(ptrs[i], -prevRot);
@@ -43,7 +42,6 @@ class Main {
             prevRot = dir;
             for (int i = wheelNum - 1; i >= 0; i--) {
                 if (wheels[i][ptrs[i]] == wheels[i+1][rotate(ptrs[i+1], 4)]) {
-                    rotated[i] = ptrs[i];
                     break;
                 }
                 rotated[i] = rotate(ptrs[i], -prevRot);
@@ -69,7 +67,4 @@ class Main {
             return (8 + ptr - amount) % 8;
     }
 
-    // static int rotateRight(int ptr) {
-    //     return (ptr + 1) % 8;
-    // }
 }
