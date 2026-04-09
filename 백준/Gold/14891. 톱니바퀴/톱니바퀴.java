@@ -24,9 +24,7 @@ class Main {
             int dir = Integer.parseInt(st.nextToken());
 
             int prevRot = dir;
-            int[] rotated = new int[4];
-            for (int i = 0; i < 4; i++)
-                rotated[i] = ptrs[i];
+            int[] rotated = ptrs.clone();
 
             rotated[wheelNum] = rotate(ptrs[wheelNum], dir);
 
