@@ -1,3 +1,4 @@
+
 import java.util.*;
 import java.io.*;
 
@@ -16,6 +17,8 @@ public class Solution {
 	static int[] dy = {0, 1, 0, -1};
 	
 	static void dfs(int step, int wireLength, int cores) {
+		if (cores + (disconnecteds.size() - step) < maxCores) return;
+		
 		if (step == disconnecteds.size()) {
 			if (cores > maxCores || (cores == maxCores && wireLength < minWires) ) {
 				maxCores = cores;
