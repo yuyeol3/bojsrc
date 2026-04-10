@@ -83,11 +83,17 @@ public class Main {
 		}
 		
 		int validGroups = 0;
+		for (int i = 0; i < idNext; i++) {
+			if (nums[i] > 1) validGroups++;
+		}
+		
+		if (validGroups==0) return 0;
+		
+		
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < N; j++) {
 				int id = united[i][j];
 				if (nums[id] <= 1) continue;
-				validGroups++;
 				nations[i][j] = sums[id] / nums[id];
 			}
 		}
