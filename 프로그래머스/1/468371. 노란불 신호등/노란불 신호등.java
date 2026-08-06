@@ -6,16 +6,17 @@ class Solution {
         b = Math.abs(b);
         
         while (b != 0) {
-            long remainder = a % b;
+            long r = a % b;
             a = b;
-            b = remainder;
+            b = r;
         }
         
         return a;
     }
     
     long lcm(long a, long b) {
-        if (a == 0 || b == 0) return 0;
+        if (a == 0 || b == 0) 
+            return 0;
         
         return Math.abs(a*b / gcd(a,b));
     }
@@ -34,55 +35,37 @@ class Solution {
         return result;
     }
     
-    boolean isYellow(int g, int y, int r, int t) {
+    boolean isYellow(int g, int y, int r, long t) {
         /*
             r + g + b 
             n = (t_st - g) / (g+r+y) = ((t_ed) - (g+y))/(g+r+y)
         */
         
-        int n = (t - g - 1) / (g+r+y);
-        int st = g+1 + (g+r+y) * n;
+        long period = (long) g + y + r;
+        long pos = (t-1) % period;
         
-        return st <= t && t < st + y;
+        return g <= pos && pos < (long) g + y;
     }
     
     public int solution(int[][] signals) {        
         int n = signals.length;
-        boolean isImpossible = false;
-        long[] coeffs = new long[n];
+        long[] coeffs = new long[n]; // 주기
         
         for (int i = 0; i < n; i++) {
             coeffs[i] = signals[i][0] + signals[i][1] + signals[i][2];
         }
         
-        for (int i = 1; i < n; i++) {
-            for (int j = i+1; j < n-1; j++) {
-                int aG = signals[i][0];
-                int aY = signals[i][1];
-                
-                int bG = signals[j][0];
-                int bY = signals[j][1];
-                
-                if (coeffs[i] == coeffs[j] &&
-                    !((aG <= bG && bG < aG + aY) ||
-                      (aG < bG+bY && bG+bY <= aG + aY))    
-                )
-                    return -1;
-            }
-        }
         
-        
-        int t = 1;
         long lim = lcmAll(coeffs);
-        while (t <= lim) {
+        
+        for (long t = 1; t <= lim; t++) {
             for (int i = 0; i < n; i++) {
                 if (!isYellow(signals[i][0], signals[i][1], signals[i][2], t))
                     break;
-                
+             
                 if (i == n-1) 
-                    return t;
+                    return (int) t;
             }
-            t++;
         }
         
         return -1;
