@@ -123,19 +123,7 @@ class Solution {
         return result;
     }
     
-    int calcMaximum(int from, int to, int leftPlus) {
-        
-        int sum = 0;
-        for (int i = to; i >= from; i--) {
-            sum += 2 * (int) Math.pow(3, i);
-            leftPlus -= 2;
-            if (leftPlus <= 0) return sum;
-        }
-        
-        return sum;
-    }
-    
-    
+
     int backtracking(int x, int r, int leftVal, int leftPlus) {
         
 
@@ -162,6 +150,7 @@ class Solution {
         
         int lb = 1;
         int ub = 30;
+    
         
         int x = 0;
         while (lb < ub) {
