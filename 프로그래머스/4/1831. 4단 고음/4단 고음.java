@@ -149,9 +149,9 @@ class Solution {
         
 
         if (leftVal < 0 || leftPlus < 0) return 0;
-        if (leftVal % (int) Math.pow(3, r) != 0) return 0;
+        // if (leftVal % 3 != 0) return 0;
         // if (leftPlus * (int) Math.pow(3, x-1) < leftVal) return 0;
-        if (calcMaximum(r,x-1, leftPlus) < leftVal) return 0;
+        // if (calcMaximum(r,x-1, leftPlus) < leftVal) return 0;
         if (leftPlus > 2 * (x - r)) return 0;
         if (x == r) {
             return leftVal == 0 && leftPlus == 0 ? 1 : 0;
@@ -161,7 +161,9 @@ class Solution {
         int ed = 2*(x - r);
         int result = 0;
         for (int i = st; i <= ed; i++) {
-            int next = leftVal - i * (int) Math.pow(3, r);
+            int next = leftVal - i;
+            if (next % 3 != 0) continue;
+            next /= 3;
             result += backtracking(x, r+1, next, leftPlus-i);
         }
         
