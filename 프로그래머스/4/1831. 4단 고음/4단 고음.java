@@ -101,15 +101,6 @@ n - 3^x = _ * 3^(x-1)
 
 
 class Solution {
-    int calc(String s) {
-        int val = 1;
-        for (char c : s.toCharArray()) {
-            if (c == '+') val++;
-            else if (c == '*') val *= 3;
-        }
-        return val;
-    }
-    
     long lengthMax(int n) {
         long result = 1;
         
@@ -149,9 +140,6 @@ class Solution {
         
 
         if (leftVal < 0 || leftPlus < 0) return 0;
-        // if (leftVal % 3 != 0) return 0;
-        // if (leftPlus * (int) Math.pow(3, x-1) < leftVal) return 0;
-        // if (calcMaximum(r,x-1, leftPlus) < leftVal) return 0;
         if (leftPlus > 2 * (x - r)) return 0;
         if (x == r) {
             return leftVal == 0 && leftPlus == 0 ? 1 : 0;
@@ -195,10 +183,5 @@ class Solution {
         }
         
         return backtracking(x, 0, n-(int)Math.pow(3, x), 2*x);
-        // *+*+++
-        // (3+1)*3+3
-        // 3^2 + 3 + 3
-        
-        // return x;
     }
 }
