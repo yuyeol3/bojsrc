@@ -20,6 +20,7 @@ class Solution {
         // dp.get(1).add(N);
         
         
+        // 9 * 9  * 
         for (int i = 1; i < 9; i++) {
             
             for (int k = 1; k <= i / 2; k++) {
@@ -44,11 +45,12 @@ class Solution {
             dp.get(i).add(N * getElv(i));
             
             if (dp.get(i).contains(number)) {
-                IO.println(dp.get(i).size());
+                // IO.println(dp);
+                // IO.println(dp.get(i).size());
                 return i;
             }
         }
-        IO.println(dp.get(8).size());
+        // IO.println(dp.get(8).size());
         return -1;
     }
     
