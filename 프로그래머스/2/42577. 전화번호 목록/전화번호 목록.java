@@ -10,7 +10,7 @@ class Solution {
         for (String s : phone_book) {
             for (int i = 0; i < s.length(); i++) {
                 String substr = s.substring(0, i+1);
-                if (dict.keySet().contains(substr)) {
+                if (dict.containsKey(substr)) {
                     return false;
                 }
             }
