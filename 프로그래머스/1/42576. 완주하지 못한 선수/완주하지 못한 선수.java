@@ -5,8 +5,9 @@ class Solution {
         Map<String, Integer> pmap = new HashMap<>();
         
         for (String p : participant) {
-            pmap.computeIfPresent(p, (k, v)->v+1);
-            pmap.computeIfAbsent(p, (k)->1);
+            // pmap.computeIfPresent(p, (k, v)->v+1);
+            // pmap.computeIfAbsent(p, (k)->1);
+            pmap.put(p, pmap.getOrDefault(p, 0)+1);
         }
         
         for (String c : completion) {
