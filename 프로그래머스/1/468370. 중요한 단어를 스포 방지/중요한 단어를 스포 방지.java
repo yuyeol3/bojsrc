@@ -45,7 +45,7 @@ class Solution {
     
     public int solution(String message, int[][] spoiler_ranges) {
         ParseResults r = parseMessage(message, spoiler_ranges);        
-        IO.println(r);
+        // IO.println(r);
         
         Set<String> p = new HashSet<>(r.spoilerPrevent());
         return (int) p.stream()
