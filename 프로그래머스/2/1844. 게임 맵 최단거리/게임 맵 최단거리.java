@@ -1,14 +1,12 @@
 import java.util.*;
 
 class Solution {
-    int[] dx = {1, 0, -1, 0};
-    int[] dy = {0, 1, 0, -1};
+    final int[] dx = {1, 0, -1, 0};
+    final int[] dy = {0, 1, 0, -1};
     public int solution(int[][] maps) {
         
         int n = maps.length;
         int m = maps[0].length;
-        
-        
         
         if (maps[0][0] == 0 || maps[n-1][m-1] == 0)
             return -1;
@@ -19,12 +17,10 @@ class Solution {
             Arrays.fill(visited[i], -1);
         }
         
-        Deque<int[]> q = new ArrayDeque<>();
+        final Deque<int[]> q = new ArrayDeque<>();
         q.offerLast(new int[]{0, 0});
         visited[0][0] = 1;
-        // return -1;
-        
-    
+            
         while (!q.isEmpty()) {
             int[] cur = q.pollFirst();
             int x = cur[0], y = cur[1];
