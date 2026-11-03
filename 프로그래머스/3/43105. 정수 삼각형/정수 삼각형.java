@@ -2,7 +2,7 @@ import java.util.*;
 
 /*
 
-dp[lvl][pos] = triangle[lvl][pos] +  max(dp[lvl-1][pos], dp[lvl-1][pos+1])
+dp[lvl][pos] = triangle[lvl][pos] +  max(dp[lvl+1][pos], dp[lvl+1][pos+1])
 */
 
 class Solution {
@@ -22,6 +22,5 @@ class Solution {
         
         
         return dp[0][0];
-        // return 0;
     }
 }
