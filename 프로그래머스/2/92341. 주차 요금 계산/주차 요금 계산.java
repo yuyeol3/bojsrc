@@ -2,8 +2,6 @@ import java.util.*;
 
 class Solution {
     
-    record ParkResult(String carNum, int cost) {}
-    
     int toSerial(String timeString) {
         StringTokenizer st = new StringTokenizer(timeString, ":");
         
@@ -35,16 +33,16 @@ class Solution {
             else {
                 int enterTime = enteredOn.get(carNum);
                 int parkedPeriod = time - enterTime;                
-                aggParkingTime.put(carNum, aggParkingTime.getOrDefault(carNum, 0) + parkedPeriod);
+                aggParkingTime.merge(carNum, parkedPeriod, Integer::sum);
                 enteredOn.remove(carNum);
             }
         }
         
+        int finalTime = toSerial("23:59");
         for (String carNum : enteredOn.keySet()) {
-            int time = toSerial("23:59");
             int enterTime = enteredOn.get(carNum);
-            int parkedPeriod = time - enterTime;
-            aggParkingTime.put(carNum, aggParkingTime.getOrDefault(carNum, 0) + parkedPeriod);
+            int parkedPeriod = finalTime - enterTime;
+            aggParkingTime.merge(carNum, parkedPeriod, Integer::sum);
         }
         
         return aggParkingTime
@@ -66,10 +64,7 @@ class Solution {
         }
         else {
             return defCost + (
-                (
-                    ((parkedPeriod - defTime)/unitTime)*unitTime == parkedPeriod - defTime ? 
-                    parkedPeriod - defTime : parkedPeriod - defTime + unitTime 
-                ) / unitTime
+                (parkedPeriod - defTime + unitTime - 1) / unitTime
             ) * unitCost;
         }
     }
