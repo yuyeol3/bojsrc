@@ -30,9 +30,12 @@ class Solution {
             StringBuilder sb = new StringBuilder();
             InOutRecord ior = inOutList.get(i);
             String userName = uidName.get(ior.uid());
-            sb.append(userName);
-            sb.append("님이");
-            sb.append(ior.inout() ? " 들어왔습니다." : " 나갔습니다.");
+            
+            sb.append(userName)
+              .append("님이")
+              .append(ior.inout() ? " 들어왔습니다." : " 나갔습니다.");
+            
+            
             answer[i] = sb.toString();
         }
         
